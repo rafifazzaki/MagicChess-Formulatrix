@@ -3,5 +3,6 @@ public enum Races{
     Civet,
     Human,
     Feathered,
-    Demon
+    Demon,
+    Cave
 }

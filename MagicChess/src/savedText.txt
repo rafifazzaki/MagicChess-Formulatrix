@@ -1,0 +1,5 @@
+string answer;
+Console.WriteLine($"Hp: ,Gold: , Exp: ");
+        Console.WriteLine("1. Assign");
+        Console.WriteLine("2. End Turn");
+        answer = Console.ReadLine();

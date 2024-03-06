@@ -4,11 +4,14 @@ namespace MagicChess;
 
 public class BattleArena : IBattleArena
 {
-    public int ID {get; private set;}
-    public string Name {get; private set;}
+    public int[,] MaxBoard {get; private set;}
+
+    public BattleArena(int maxBoard){
+        MaxBoard = new int[maxBoard,maxBoard];
+    }
+
 }
 
 public interface IBattleArena{
-    int ID {get;}
-    string Name {get;}
+    int[,] MaxBoard {get;}
 }

@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicChess", "MagicChess\MagicChess.csproj", "{50282B51-1D00-403E-969A-7150B2C97C7A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAutoChess", "TestAutoChess\TestAutoChess.csproj", "{62E5E0C7-98A8-4071-BE73-9A3F6DE8492B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoChess", "AutoChess\AutoChess.csproj", "{6188FE32-70DA-4FDC-96E3-302E24FFF21B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{50282B51-1D00-403E-969A-7150B2C97C7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50282B51-1D00-403E-969A-7150B2C97C7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50282B51-1D00-403E-969A-7150B2C97C7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62E5E0C7-98A8-4071-BE73-9A3F6DE8492B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62E5E0C7-98A8-4071-BE73-9A3F6DE8492B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62E5E0C7-98A8-4071-BE73-9A3F6DE8492B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62E5E0C7-98A8-4071-BE73-9A3F6DE8492B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6188FE32-70DA-4FDC-96E3-302E24FFF21B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6188FE32-70DA-4FDC-96E3-302E24FFF21B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6188FE32-70DA-4FDC-96E3-302E24FFF21B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6188FE32-70DA-4FDC-96E3-302E24FFF21B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

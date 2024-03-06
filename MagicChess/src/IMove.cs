@@ -1,5 +1,5 @@
 public interface IMove{
-    float MoveSpeed {get;}
+    int MoveSpeed {get;}
     bool PickTarget();
     bool MoveToLocation();
 }
