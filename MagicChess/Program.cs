@@ -16,12 +16,15 @@ class Program
 
         List<IPiece> pieces = new();
         pieces.Add(new RedAxe());
+        pieces.Add(new RedAxe());
+        pieces.Add(new RedAxe());
         
         Player p1 = new(name1);
         Player p2 = new(name2);
         GameController gc = new(arena, store, pieces, p1, p2);
 
-        // TO DO: Console log instanced game object
+        // TODO: Console log instanced game object
+        // Check: pass Dictionary Player Data?
         
         #endregion
         
