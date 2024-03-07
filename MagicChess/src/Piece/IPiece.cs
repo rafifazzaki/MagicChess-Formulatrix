@@ -1,4 +1,4 @@
-public interface IPiece{
+public interface IPiece : IPieceAttack, IPosition, IMove{
     string Name {get;}
     Races Races {get;}
     PieceClass Class {get;}

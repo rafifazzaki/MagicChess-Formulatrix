@@ -2,17 +2,33 @@ namespace MagicChess;
 
 public class BattleStore : IBattleStore
 {
-    public int PiecesToShow => throw new NotImplementedException();
+    public List<IPiece> Pieces {get;}
+    public int PiecesToShow {get; private set;}
 
-
-    public IPiece BuyPiece()
-    {
-        throw new NotImplementedException();
+    public BattleStore(int piecesToShow, List<IPiece> pieces){
+        PiecesToShow = piecesToShow;
+        Pieces = pieces;
     }
+
+    // public bool ShuffleDeck(){
+    //     Util.Shuffle(Pieces);
+    //     return true;
+    // }
+
+    // public IEnumerable<IPiece> ShowStore(){
+    //     var pieces = Pieces.Take(PiecesToShow);
+    //     return pieces;
+    // }
+
+
+    
 
 }
 
 public interface IBattleStore{
-    IPiece BuyPiece();
     int PiecesToShow {get;}
+    List<IPiece> Pieces {get;}
+
+    // IEnumerable<IPiece> ShowStore();
+    // bool ShuffleDeck();
 }

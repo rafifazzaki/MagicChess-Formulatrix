@@ -1,5 +1,5 @@
 
-public class Piece : IPiece, IPieceAttack, IPosition, IMove
+public class Piece : IPiece
 {
     public string Name { get; protected set; }
     //
@@ -49,6 +49,7 @@ public class Piece : IPiece, IPieceAttack, IPosition, IMove
         this.Class = pieceClass;
         StarLevel = StarLevel.One;
     }
+
 
     public bool SetPosition(int[,] Position){
         return true;
