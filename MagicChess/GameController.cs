@@ -9,17 +9,14 @@ public class GameController : IAutoChessGameController
     IPlayer[] players;
     List<IPiece> AllPieces;
 
-    public GameController(IBattleArena arena, BattleStore store, List<IPiece> allPieces, params IPlayer[] players){
+    public GameController(IBattleArena arena, BattleStore store, List<IPiece> allPieces, Dictionary<IPlayer, PlayerData> playersData){
         this.arena = arena;
         this.store = store;
         this.players = players;
         this.AllPieces = allPieces;
 
-        foreach(IPlayer i in players)  
-        { 
-            PlayerData data = new();
-            PlayersData.Add(i, data);
-        } 
+        this.PlayersData = playersData;
+
     }
 
     public bool ChangeTurn(){
