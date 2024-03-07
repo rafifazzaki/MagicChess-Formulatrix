@@ -31,7 +31,6 @@ class Program
         GameController gc = new(arena, store, pieces, playersData);
 
         // TODO: Console log instanced game object
-        // Check: pass Dictionary Player Data?
         
         #endregion
         
