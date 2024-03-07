@@ -57,7 +57,6 @@ class Program
                 Console.WriteLine("4. Level up (not implemented)");
                 Console.WriteLine("5. End Turn");
                 answer = Console.ReadLine();
-
                 switch (answer)
                 {
                     case "1":
