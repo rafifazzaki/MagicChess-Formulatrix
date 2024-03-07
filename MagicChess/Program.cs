@@ -52,7 +52,7 @@ class Program
                 Console.WriteLine($"Player: {playerData.Key.Name}");
                 Console.WriteLine($"Gold: {playerData.Value.Gold}, Exp: {playerData.Value.Exp}, Lvl: {playerData.Value.Level}");
                 Console.WriteLine("1. Info");
-                Console.WriteLine("2. Assign");
+                Console.WriteLine("2. Assign"); //this
                 Console.WriteLine("3. Store");
                 Console.WriteLine("4. Level up (not implemented)");
                 Console.WriteLine("5. End Turn");
