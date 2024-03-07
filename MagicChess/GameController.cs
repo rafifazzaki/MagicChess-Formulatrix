@@ -4,10 +4,10 @@ public class GameController : IAutoChessGameController
 {
     public int BattleRound {get; private set;}
     public Dictionary<IPlayer, PlayerData> PlayersData {get; private set;}
-    IBattleArena arena;
-    BattleStore store;
+    public IBattleArena arena {get; private set;}
+    public BattleStore store {get; private set;}
     IPlayer[] players;
-    List<IPiece> AllPieces;
+    public List<IPiece> AllPieces {get;}
 
     public GameController(IBattleArena arena, BattleStore store, List<IPiece> allPieces, Dictionary<IPlayer, PlayerData> playersData){
         this.arena = arena;
@@ -39,6 +39,9 @@ public class GameController : IAutoChessGameController
 
 public interface IAutoChessGameController{
     int BattleRound {get;}
+    IBattleArena arena {get;}
+    BattleStore store {get;}
+    List<IPiece> AllPieces {get;}
     Dictionary<IPlayer, PlayerData> PlayersData {get;}
     
 }

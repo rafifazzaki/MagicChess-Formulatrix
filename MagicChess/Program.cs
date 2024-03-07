@@ -31,6 +31,20 @@ class Program
         GameController gc = new(arena, store, pieces, playersData);
 
         // TODO: Console log instanced game object
+        Console.WriteLine(gc.ToString());
+        Console.WriteLine(gc.arena.MaxBoard);
+        Console.WriteLine(gc.store);
+
+        foreach(var item in gc.AllPieces){
+            Console.WriteLine(item.Name);
+        }
+
+        foreach(var item in gc.PlayersData){
+            Console.WriteLine($"{item.Key} and {item.Value.Gold}");
+        }
+
+
+        
         
         #endregion
         
