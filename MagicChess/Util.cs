@@ -19,4 +19,24 @@ public static class Util
             list[n] = value;
         }
     }
+    public static void ParseIntChar(string input, out int number, out char text){
+        number = 0;
+        text = ' ';
+
+        string numberPart = input.Substring(0, input.Length - 1); // Extract the number part
+            string charPart = input.Substring(input.Length - 1);     // Extract the character part
+
+            // Parse the number part into an integer
+            if (int.TryParse(numberPart, out int intResult))
+            {
+                number = intResult;
+                text = charPart.ToCharArray()[0];
+            }
+            else
+            {
+                Console.WriteLine("Invalid input format.");
+            }
+
+        
+    }
 }

@@ -45,107 +45,121 @@ class Program
     }
 
     static void MainMenu(GameController gc, KeyValuePair<IPlayer, PlayerData> playerData, string answer)
+    {
+        while (playerData.Key == gc.CurrentPlayer)
         {
-            while (playerData.Key == gc.CurrentPlayer)
+            Console.Clear();
+            Console.WriteLine($"Player: {playerData.Key.Name}");
+            Console.WriteLine($"Gold: {playerData.Value.Gold}, Exp: {playerData.Value.Exp}, Lvl: {playerData.Value.Level}");
+            Console.WriteLine("1. Info");
+            Console.WriteLine("2. Assign"); //this
+            Console.WriteLine("3. Store");
+            Console.WriteLine("4. Level up (not implemented)");
+            Console.WriteLine("5. End Turn");
+            answer = Console.ReadLine();
+            switch (answer)
             {
-                Console.Clear();
-                Console.WriteLine($"Player: {playerData.Key.Name}");
-                Console.WriteLine($"Gold: {playerData.Value.Gold}, Exp: {playerData.Value.Exp}, Lvl: {playerData.Value.Level}");
-                Console.WriteLine("1. Info");
-                Console.WriteLine("2. Assign"); //this
-                Console.WriteLine("3. Store");
-                Console.WriteLine("4. Level up (not implemented)");
-                Console.WriteLine("5. End Turn");
-                answer = Console.ReadLine();
-                switch (answer)
-                {
-                    case "1":
-                        Info(gc);
-                        break;
-                    case "2":
-                        // Show Choice
-                        // input
-                        // parse input for piece and location, ie. 1A (1 is piece, A is location)
-                        // check if it was possible 
-                        break;
-                    case "3":
-                        ShowStore(gc);
-                        break;
-                    case "4":
-                        // code block
-                        break;
-                    case "5":
-                        // code block
-                        gc.NextTurn(gc.CurrentPlayer);
-                        break;
-                    default:
-                        // code block
-                        break;
-                }
+                case "1":
+                    Info(gc);
+                    break;
+                case "2":
+                    // Show Choice
+
+                    break;
+                case "3":
+                    ShowStore(gc);
+                    break;
+                case "4":
+                    // code block
+                    break;
+                case "5":
+                    // code block
+                    gc.NextTurn(gc.CurrentPlayer);
+                    break;
+                default:
+                    // code block
+                    break;
+            }
+        }
+    }
+
+    static void Info(GameController gc)
+    {
+        string? answer;
+        while (true)
+        {
+            Console.Clear();
+            Console.WriteLine($"Player: {gc.CurrentPlayer.Name}");
+            Console.WriteLine(
+                $"Gold: {gc.PlayersData[gc.CurrentPlayer].Gold}, Exp: {gc.PlayersData[gc.CurrentPlayer].Exp}, Lvl: {gc.PlayersData[gc.CurrentPlayer].Level}"
+                );
+            Console.WriteLine("===================================");
+            Console.WriteLine("current Pieces: ");
+            Console.WriteLine("===================================");
+            int i = 1;
+            foreach (var item in gc.PlayersData[gc.CurrentPlayer].Pieces)
+            {
+                Console.WriteLine($"{i}. {item.Name}");
+                i++;
+            }
+            Console.WriteLine("1.Back");
+            answer = Console.ReadLine();
+
+            if (answer == "1")
+            {
+                break;
             }
         }
 
-        static void Info(GameController gc)
+    }
+
+    static void AssignPieces(GameController gc)
+    {
+        string? answer;
+        while (true)
         {
-            while (true)
+            // input
+            // parse input for piece and location, ie. 1A (1 is piece, A is location)
+            // check if it was possible 
+            answer = Console.ReadLine();
+
+            Util.ParseIntChar(answer, out int number, out char text);
+            
+        }
+    }
+
+    static void ShowStore(GameController gc)
+    {
+        while (true)
+        {
+            Console.Clear();
+            int i = 1;
+
+            foreach (var item in gc.PieceOnStore(false))
             {
-                Console.Clear();
-                Console.WriteLine($"Player: {gc.CurrentPlayer.Name}");
                 Console.WriteLine(
-                    $"Gold: {gc.PlayersData[gc.CurrentPlayer].Gold}, Exp: {gc.PlayersData[gc.CurrentPlayer].Exp}, Lvl: {gc.PlayersData[gc.CurrentPlayer].Level}"
-                    );
-                Console.WriteLine("===================================");
-                Console.WriteLine("current Pieces: ");
-                Console.WriteLine("===================================");
-                int i = 1;
-                foreach (var item in gc.PlayersData[gc.CurrentPlayer].Pieces)
-                {
-                    Console.WriteLine($"{i}. {item.Name}");
-                    i++;
-                }
-                Console.WriteLine("1.Back");
-                string answer = Console.ReadLine();
-
-                if (answer == "1")
-                {
-                    break;
-                }
+                    $"{i}. {item.Name} (${item.Price}) :::: HP {item.HP}, ATK {item.AttackPoint}");
+                i++;
             }
 
-        }
+            string answer = Console.ReadLine();
 
-        static void ShowStore(GameController gc)
-        {
-            while (true)
+            if (int.TryParse(answer, out int choice) && choice >= 1 && choice <= gc.PieceOnStore(false).Count())
             {
-                Console.Clear();
-                int i = 1;
-
-                foreach (var item in gc.PieceOnStore(false))
-                {
-                    Console.WriteLine(
-                        $"{i}. {item.Name} (${item.Price}) :::: HP {item.HP}, ATK {item.AttackPoint}");
-                    i++;
-                }
-
-                string answer = Console.ReadLine();
-
-                if (int.TryParse(answer, out int choice) && choice >= 1 && choice <= gc.PieceOnStore(false).Count())
-                {
-                    Console.WriteLine($"You Bought: {gc.PieceOnStore(false)[choice - 1].Name}!");
-                    gc.PlayersData[gc.CurrentPlayer].AddPiece(gc.PieceOnStore(false)[choice - 1]);
-                    gc.store.Pieces.Remove(gc.PieceOnStore(false)[choice - 1]);
-                    break;
-                }
-                else if (answer == i++.ToString())
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Invalid choice!");
-                }
-                i = 0;
+                Console.WriteLine($"You Bought: {gc.PieceOnStore(false)[choice - 1].Name}!");
+                gc.PlayersData[gc.CurrentPlayer].AddPiece(gc.PieceOnStore(false)[choice - 1]);
+                gc.store.Pieces.Remove(gc.PieceOnStore(false)[choice - 1]);
+                break;
             }
+            else if (answer == i++.ToString())
+            {
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Invalid choice!");
+            }
+            i = 0;
         }
+    }
 }
