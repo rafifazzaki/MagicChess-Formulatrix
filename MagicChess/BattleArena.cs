@@ -8,6 +8,7 @@ public class BattleArena : IBattleArena
     public int[,] BoardPosition {get; private set;}
 
     public BattleArena(string name, int maxBoard){
+        // check if not even then throw errors
         Name = name;
         BoardPosition = new int[maxBoard,maxBoard];
     }

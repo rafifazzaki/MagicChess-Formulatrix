@@ -63,7 +63,10 @@ class Program
                         Info(gc);
                         break;
                     case "2":
-                        // code block
+                        // Show Choice
+                        // input
+                        // parse input for piece and location, ie. 1A (1 is piece, A is location)
+                        // check if it was possible 
                         break;
                     case "3":
                         ShowStore(gc);
