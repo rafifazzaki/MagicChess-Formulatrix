@@ -64,7 +64,7 @@ class Program
                     break;
                 case "2":
                     // Show Choice
-
+                    AssignPieces(gc);
                     break;
                 case "3":
                     ShowStore(gc);
@@ -116,15 +116,63 @@ class Program
     static void AssignPieces(GameController gc)
     {
         string? answer;
+        int i;
         while (true)
         {
-            // input
-            // parse input for piece and location, ie. 1A (1 is piece, A is location)
-            // check if it was possible 
+            i = 1;
+            Console.Clear();
+            Console.WriteLine("===================================");
+            Console.WriteLine("Assign Piece:");
+            Console.WriteLine("FORMAT: Piece(space)X_Axis(space)Y_Axis");
+            Console.WriteLine("EXAMPLE: \"1 0 0\"");
+            Console.WriteLine("===================================");
+            foreach (var item in gc.PlayersData[gc.CurrentPlayer].Pieces)
+            {
+                Console.WriteLine($"{i}. {item.Name}");
+                i++;
+            }
             answer = Console.ReadLine();
 
-            Util.ParseIntChar(answer, out int number, out char text);
+            IPiece asda = gc.PlayersData[gc.CurrentPlayer].Pieces[0];
+
+            Console.WriteLine();
+
+            if (
+                gc.arena.GetPieceAndPosition(gc, answer,
+                 out IPiece piece, out int x, out int y)
+            )
+            {
+                // gc.arena.SetPiecePosition(piece, x, y);
+
+            }
+            else
+            {
+                Console.WriteLine("Please Input According to Format");
+            }
+
+            // Get the dimensions of the array
+            int rows = gc.arena.PiecesPosition.GetLength(0);
+            int cols = gc.arena.PiecesPosition.GetLength(1);
+
+
+            Console.WriteLine("TEST");
+            // Print the values of the array
+            for (int j = 0; j < rows; j++)
+            {
+                for (int k = 0; k < cols; k++)
+                {
+                    Console.Write(gc.arena.PiecesPosition[i, j].Name + " ");
+                }
+                Console.WriteLine(); // Move to the next line for the next row
+            }
             
+            // for (int j = 0; j < gc.arena.PiecesPosition.Length; j++)
+            // {
+            //     Console.WriteLine($"{j}. {gc.arena.PiecesPosition}");
+
+            // }
+            Console.ReadLine();
+
         }
     }
 
