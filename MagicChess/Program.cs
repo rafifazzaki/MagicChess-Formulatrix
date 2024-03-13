@@ -114,9 +114,10 @@ class Program
                     // if the player is not the same
                     if(kvp.Value != item.Value){
                         // damage pieces that has 
-                        item.Key.GetDamage(kvp.Key.AttackPoint);
-                        Console.WriteLine($"{kvp.Value.Name}: {kvp.Key.Name} Attacking {item.Key.Name} With {kvp.Key.AttackPoint} damage, {item.Key.Name}'s HP: {item.Key.CurrentHP}");
-                        Console.WriteLine("then..");
+
+                        // still inside this loop, go inside other method
+                        // inside the loop
+                        PiecesActionLoop(gc, kvp, item);
                         break;
                     }
                 }
@@ -137,6 +138,22 @@ class Program
             }
             
             Console.ReadLine();
+        }
+    }
+
+    static void PiecesActionLoop(GameController gc, KeyValuePair<IPiece, IPlayer> kvp, KeyValuePair<IPiece, IPlayer> item){
+
+        // if 2 pieces are not Adjacent
+            // Move
+        // if adjacent
+            // Damage
+        if(!gc.arena.AreAdjacent(kvp.Key, item.Key)){
+            
+
+        }else{
+            item.Key.GetDamage(kvp.Key.AttackPoint);
+            Console.WriteLine($"{kvp.Value.Name}: {kvp.Key.Name} Attacking {item.Key.Name} With {kvp.Key.AttackPoint} damage, {item.Key.Name}'s HP: {item.Key.CurrentHP}");
+            Console.WriteLine("then..");
         }
     }
 

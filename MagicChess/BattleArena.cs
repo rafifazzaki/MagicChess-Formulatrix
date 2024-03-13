@@ -110,10 +110,6 @@ public class BattleArena : IBattleArena
         int diffRow = targetPosition[0] - piecePosition[0];
         int diffCol = targetPosition[1] - piecePosition[1];
 
-        if(AreAdjacent(targetPosition, piecePosition)){
-            return true;
-        }
-
         if (diffRow > 0)
                 piecePosition[0]++; // Move down
         else if (diffRow < 0)
@@ -127,13 +123,24 @@ public class BattleArena : IBattleArena
         return false;
     }
 
-    bool AreAdjacent(int[] pos1, int[] pos2)
+    public bool AreAdjacentPos(int[] pos1, int[] pos2)
     {
         int diffRow = Math.Abs(pos1[0] - pos2[0]);
         int diffCol = Math.Abs(pos1[1] - pos2[1]);
         return (diffRow <= 1 && diffCol <= 1);
     }
 
+    // method bool areAdjacent()
+    public bool AreAdjacent(IPiece piece, IPiece target)
+    {
+        int[] piecePosition = { piece.CurrentPosition.Item1, piece.CurrentPosition.Item2 };
+        int[] targetPosition = { target.CurrentPosition.Item1, target.CurrentPosition.Item2 };
+
+        int diffRow = Math.Abs(piecePosition[0] - targetPosition[0]);
+        int diffCol = Math.Abs(piecePosition[1] - targetPosition[1]);
+        return (diffRow <= 1 && diffCol <= 1);
+
+    }
 
 
 }
@@ -149,5 +156,8 @@ public interface IBattleArena
     public Dictionary<IPiece, IPlayer> PiecePlayer { get; }
     public bool RemovePieceFromBoard(IPiece piece);
     public List<IPiece> GetPiecesByPlayer(IPlayer player);
+
+    public bool TargetInRange(IPiece piece, IPiece target);
+    public bool AreAdjacent(IPiece piece, IPiece target);
     
 }
