@@ -109,7 +109,6 @@ class Program
             // check if the player is not same, if yes then attack it
             foreach (KeyValuePair<IPiece, IPlayer> kvp in piecesQueue)
             {
-                // bool isFoundEnemy = false;
                 foreach (var item in piecesQueue)
                 {
                     // if the player is not the same
@@ -139,9 +138,8 @@ class Program
             
             Console.ReadLine();
         }
-        
-
     }
+
 
     static void MainMenu(GameController gc, KeyValuePair<IPlayer, PlayerData> playerData, string answer)
     {

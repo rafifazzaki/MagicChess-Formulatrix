@@ -95,6 +95,45 @@ public class BattleArena : IBattleArena
         return false;
     }
 
+    public bool TargetInRange(IPiece piece, IPiece target){
+        // check 
+        int x = piece.CurrentPosition.Item1;
+        int y = piece.CurrentPosition.Item2;
+        int xTarget = target.CurrentPosition.Item1;
+        int yTarget = target.CurrentPosition.Item2;
+
+        // Define the positions of piece and target
+        int[] piecePosition = { x, y };
+        int[] targetPosition = { xTarget, yTarget };
+
+        // Calculate the difference in positions
+        int diffRow = targetPosition[0] - piecePosition[0];
+        int diffCol = targetPosition[1] - piecePosition[1];
+
+        if(AreAdjacent(targetPosition, piecePosition)){
+            return true;
+        }
+
+        if (diffRow > 0)
+                piecePosition[0]++; // Move down
+        else if (diffRow < 0)
+            piecePosition[0]--; // Move up
+
+        if (diffCol > 0)
+            piecePosition[1]++; // Move right
+        else if (diffCol < 0)
+            piecePosition[1]--; // Move left
+
+        return false;
+    }
+
+    bool AreAdjacent(int[] pos1, int[] pos2)
+    {
+        int diffRow = Math.Abs(pos1[0] - pos2[0]);
+        int diffCol = Math.Abs(pos1[1] - pos2[1]);
+        return (diffRow <= 1 && diffCol <= 1);
+    }
+
 
 
 }
