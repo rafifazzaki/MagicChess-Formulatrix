@@ -9,12 +9,13 @@ public class GameController : IAutoChessGameController
     public IPlayer[] PlayersTurn {get; private set;}
     public IPlayer CurrentPlayer {get; private set;}
     public bool IsGameEnded {get; private set;}
-    
+    public Rule Rule {get; private set;}
 
-    public GameController(IBattleArena arena, BattleStore store, Dictionary<IPlayer, PlayerData> playersData)
+    public GameController(IBattleArena arena, BattleStore store, Rule rule, Dictionary<IPlayer, PlayerData> playersData)
     {
         this.arena = arena;
         this.store = store;
+        this.Rule = rule;
 
         this.PlayersData = playersData;
         CurrentPlayer = playersData.Keys.First();
@@ -54,11 +55,24 @@ public class GameController : IAutoChessGameController
         return true;
     }
 
+/*
     bool Buy(IPlayer player, IPiece piece)
     {
         PlayersData[player].SetGold(PlayersData[player].Gold - piece.Price);
         PlayersData[player].AddPiece(piece);
         store.Pieces.Remove(piece);
+        return true;
+    }
+*/
+    public bool SetGameEnded(){
+        IsGameEnded = true;
+        return true;
+    }
+
+    public bool BuyLevel(IPlayer player){
+        // if exp > needed to lvl up
+            // lvl + 1
+            // exp -= according to priceLevel
         return true;
     }
 
@@ -74,39 +88,4 @@ public interface IAutoChessGameController
     bool IsGameEnded {get;}
 
 }
-public class PlayerData
-{
-    public List<IPiece> Pieces {get;}
-    public int Gold { get; private set; }
-    public int Exp { get; private set; } //
-    public int Level { get; private set; } //max 9
 
-    public PlayerData()
-    {
-        Pieces = new();
-        Gold = 2;
-        Exp = 0;
-        Level = 1;
-    }
-
-    public int SetGold(int gold)
-    {
-        Gold = gold;
-        return gold;
-    }
-    public bool AddPiece(IPiece piece)
-    {
-        Pieces.Add(piece);
-        return true;
-    }
-}
-
-public enum ExpAndLevel
-{
-    Lv1 = 23,
-    Lv2,
-    Lv3,
-    Lv4,
-    Lv5
-
-}

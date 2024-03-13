@@ -3,5 +3,6 @@ public interface IPieceAttack{
     int AttackSpeed {get;}
     int AttackRange {get;}
     AttackType attackType {get;}
+    int DamageToPlayer {get;}
 }
 
