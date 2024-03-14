@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "0B75OTKGVn9I1vIsOAlpUh67j1nwrZtD+qCdmGQxJbzOHNmujbzXGF/q3LC6fs1tumrSCTzT8/JmANZJNcKArQ==",
+  "dgSpecHash": "L9WUnsx+HNk4g92lXS8ZyvDb/ZIvlh6LSTMS+x/5gOPg8g5Mda70zk2nCZuNVGkz8eqGzcCcAxnHf1kYcLtQYQ==",
   "success": true,
-  "projectFilePath": "c:\\Users\\rafif\\Documents\\GitHub\\MagicChess-Formulatrix\\MagicChess\\MagicChess.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\rafif\\Documents\\GitHub\\MagicChess-Formulatrix\\MagicChess\\MagicChess.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\rafif\\.nuget\\packages\\spectre.console\\0.48.0\\spectre.console.0.48.0.nupkg.sha512",
+    "C:\\Users\\rafif\\.nuget\\packages\\spectre.console.cli\\0.48.0\\spectre.console.cli.0.48.0.nupkg.sha512",
+    "C:\\Users\\rafif\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512"
+  ],
   "logs": []
 }
