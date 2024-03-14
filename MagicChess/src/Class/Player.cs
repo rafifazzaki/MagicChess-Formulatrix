@@ -11,6 +11,3 @@ public class Player : IPlayer
 
 
 
-public interface IPlayer{
-    string Name {get;}
-}

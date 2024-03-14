@@ -3,7 +3,7 @@ namespace MagicChess;
 public class GameController : IAutoChessGameController
 {
     public int BattleRound { get; private set; }
-    public Dictionary<IPlayer, PlayerData> PlayersData { get; private set; }
+    public Dictionary<IPlayer, IPlayerData> PlayersData { get; private set; }
     public IBattleArena arena { get; private set; }
     public BattleStore store { get; private set; }
     public IPlayer[] PlayersTurn {get; private set;}
@@ -11,7 +11,7 @@ public class GameController : IAutoChessGameController
     public bool IsGameEnded {get; private set;}
     public Rule Rule {get; private set;}
 
-    public GameController(IBattleArena arena, BattleStore store, Rule rule, Dictionary<IPlayer, PlayerData> playersData)
+    public GameController(IBattleArena arena, BattleStore store, Rule rule, Dictionary<IPlayer, IPlayerData> playersData)
     {
         this.arena = arena;
         this.store = store;
@@ -78,14 +78,4 @@ public class GameController : IAutoChessGameController
 
 }
 
-public interface IAutoChessGameController
-{
-    int BattleRound { get; }
-    IBattleArena arena { get; }
-    BattleStore store { get; }
-    Dictionary<IPlayer, PlayerData> PlayersData { get; }
-    public IPlayer CurrentPlayer {get;}
-    bool IsGameEnded {get;}
-
-}
 

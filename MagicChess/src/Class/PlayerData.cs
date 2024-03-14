@@ -1,15 +1,15 @@
 namespace MagicChess;
 
-public class PlayerData
+public class PlayerData : IPlayerData
 {
-    public List<IPiece> Pieces {get;}
+    public List<IPiece> Pieces { get; }
+    public int HP { get; private set; }
     public int Gold { get; private set; }
     public int Exp { get; private set; }
     public int Level { get; private set; }
-    public int MaxAssign {get; private set;}
+    public int MaxAssign { get; private set; }
 
-    public int HP {get; private set;}
-    
+
 
     public PlayerData()
     {
@@ -20,7 +20,8 @@ public class PlayerData
         Level = 1;
         MaxAssign = 3;
     }
-    public int GetDamage(int damage){
+    public int GetDamage(int damage)
+    {
         HP -= damage;
         return HP;
     }
@@ -30,7 +31,8 @@ public class PlayerData
         Gold += gold;
         return Gold;
     }
-    public bool RemoveGold(int price){
+    public bool RemoveGold(int price)
+    {
         Gold -= price;
         return true;
     }
@@ -39,17 +41,21 @@ public class PlayerData
         Pieces.Add(piece);
         return true;
     }
-    public bool IncreaseLevel(){
+    public bool IncreaseLevel()
+    {
         Level += 1;
         return true;
     }
 
-    public bool IncreaseExp(int exp){
+    public bool IncreaseExp(int exp)
+    {
         Exp += exp;
         return true;
     }
-    public bool SetCurrentMaxAssign(int maxAssign){
+    public bool SetCurrentMaxAssign(int maxAssign)
+    {
         MaxAssign = maxAssign;
         return true;
     }
 }
+

@@ -37,7 +37,7 @@ class Program
         Player p2 = new(name2);
         PlayerData pd2 = new();
 
-        Dictionary<IPlayer, PlayerData> playersData = new();
+        Dictionary<IPlayer, IPlayerData> playersData = new();
         playersData.Add(p1, pd1);
         playersData.Add(p2, pd2);
 
@@ -146,7 +146,7 @@ class Program
     }
 
 
-    static void MainMenu(GameController gc, KeyValuePair<IPlayer, PlayerData> playerData, string answer)
+    static void MainMenu(GameController gc, KeyValuePair<IPlayer, IPlayerData> playerData, string answer)
     {
         while (playerData.Key == gc.CurrentPlayer)
         {
