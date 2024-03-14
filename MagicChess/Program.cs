@@ -98,8 +98,8 @@ class Program
                 // piecesQueue.Clear();
                 foreach (var item in gc.PlayersTurn)
                 {
-                    gc.PlayersData[item].AddGold(10); //CHECK HERE, can be more flexible
-                    gc.PlayersData[item].IncreaseExp(10);
+                    gc.PlayersData[item].AddGold(3); //CHECK HERE, can be more flexible
+                    gc.PlayersData[item].IncreaseExp(3);
                 }
                 piecesQueue = null;
                 break;
@@ -109,18 +109,8 @@ class Program
             // check if the player is not same, if yes then attack it
             foreach (KeyValuePair<IPiece, IPlayer> kvp in piecesQueue)
             {
-                foreach (var item in piecesQueue)
-                {
-                    // if the player is not the same
-                    if(kvp.Value != item.Value){
-                        // damage pieces that has 
-
-                        // still inside this loop, go inside other method
-                        // inside the loop
-                        PiecesActionLoop(gc, kvp, item);
-                        break;
-                    }
-                }
+                // Check if something are adjacent
+                PiecesActionLoop(gc, kvp, piecesQueue);
             }
 
             // Check if there is piece that has current HP 0, if yes, remove it
@@ -141,20 +131,32 @@ class Program
         }
     }
 
-    static void PiecesActionLoop(GameController gc, KeyValuePair<IPiece, IPlayer> kvp, KeyValuePair<IPiece, IPlayer> item){
+    static void PiecesActionLoop(GameController gc, KeyValuePair<IPiece, IPlayer> kvp, List<KeyValuePair<IPiece, IPlayer>> piecesQueue){
 
         // if 2 pieces are not Adjacent
             // Move
         // if adjacent
             // Damage
-        if(!gc.arena.AreAdjacent(kvp.Key, item.Key)){
+
+here
+        // Check if adjacent position, if yes, attack, if no next
+
+        // Check adjacent position + 2, if there is an enemy, Move to enemy, 
+        //      if not Move to the most farthest diagonal position
+
+
+        
+        
+
+        // if(!gc.arena.AreAdjacent(kvp.Key, item.Key)){
             
 
-        }else{
-            item.Key.GetDamage(kvp.Key.AttackPoint);
-            Console.WriteLine($"{kvp.Value.Name}: {kvp.Key.Name} Attacking {item.Key.Name} With {kvp.Key.AttackPoint} damage, {item.Key.Name}'s HP: {item.Key.CurrentHP}");
-            Console.WriteLine("then..");
-        }
+        // }
+        // else{
+        //     item.Key.GetDamage(kvp.Key.AttackPoint);
+        //     Console.WriteLine($"{kvp.Value.Name}: {kvp.Key.Name} Attacking {item.Key.Name} With {kvp.Key.AttackPoint} damage, {item.Key.Name}'s HP: {item.Key.CurrentHP}");
+        //     Console.WriteLine("then..");
+        // }
     }
 
 

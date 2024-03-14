@@ -123,6 +123,29 @@ public class BattleArena : IBattleArena
         return false;
     }
 
+    public (int, int) GetAdjacentObject(IPiece piece, List<KeyValuePair<IPiece, IPlayer>> piecesQueue){
+        // check 
+        int x = piece.CurrentPosition.Item1;
+        int y = piece.CurrentPosition.Item2;
+        int[] position = { x, y };
+
+        int[,] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } }; // Up, down, right, left
+
+here
+        foreach (var dir in directions)
+        {
+            int newRow = position[0] + dir[0];
+            int newCol = position[1] + dir[1];
+            int[] newPos = { newRow, newCol };
+
+            // if (gridObjects.ContainsKey(newPos))
+            // {
+            //     return gridObjects[newPos];
+            // }
+        }
+        return (0, 0);
+    }
+
     public bool AreAdjacentPos(int[] pos1, int[] pos2)
     {
         int diffRow = Math.Abs(pos1[0] - pos2[0]);
