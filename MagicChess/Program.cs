@@ -169,10 +169,8 @@ class Program
             {
                 case "1":
                     Info(gc);
-                    // PopulateQueue(gc);
                     break;
                 case "2":
-                    // Show Choice
                     AssignPieces(gc);
                     break;
                 case "3":
@@ -311,8 +309,10 @@ class Program
 
                     break;
             }
+        }else{
+            Console.WriteLine("Your Exp is insufficient");
+            Console.ReadLine();
         }
-        // }
 
     }
 
@@ -382,9 +382,17 @@ class Program
             int i = 1;
             foreach (var item in gc.PlayersData[gc.CurrentPlayer].Pieces)
             {
-                Console.WriteLine($"{i}. {item.Name}");
+                if (item.IsAssigned)
+                {
+                    Console.WriteLine($"{i}. {item.Name} (is Assigned At: [{item.CurrentPosition.Item1}, {item.CurrentPosition.Item2}])");
+                }
+                else
+                {
+                    Console.WriteLine($"{i}. {item.Name}");
+                }
                 i++;
             }
+            Console.WriteLine("===================================");
             Console.WriteLine("1.Back");
             answer = Console.ReadLine();
 
@@ -477,6 +485,7 @@ class Program
                     gc.PlayersData[gc.CurrentPlayer].AddPiece(gc.PieceOnStore(false)[choice - 1]);
                     gc.store.Pieces.Remove(gc.PieceOnStore(false)[choice - 1]);
                     gc.PlayersData[gc.CurrentPlayer].RemoveGold(gc.PieceOnStore(false)[choice - 1].Price);
+                    Console.ReadLine();
                 }
                 else
                 {
