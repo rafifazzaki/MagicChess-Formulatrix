@@ -1,14 +1,26 @@
 ﻿using MagicChess;
 /*
+To Do:
+	-Synergy
+	-Stars
+    -Deserialization
 
 To Be Done: Alternating between 2 player
-To Be Done: 
-    Check Nearest Opponent
-    if inside range attack
-    if outside range change position
+Later Feature: 
+    -position based attack
+	-Range based attack
+    -UI
 
 For The Future:
     change tuple to class instead, because tuple is immutable
+
+Minor Bug:
+    outside of board still not handled properly?
+    check if the PlayerTurn is just a copy of playersData (dict)?
+    check commented "CHECK HERE"
+
+balancing:
+    -(try: add more gold to more cheap piece)
 */
 
 class Program
@@ -419,7 +431,7 @@ class Program
             Console.WriteLine("===================================");
             foreach (var item in gc.PlayersData[gc.CurrentPlayer].Pieces)
             {
-                // BUG, the second not showing
+                // BUG, the second not showing???
                 if (item.IsAssigned)
                 {
                     Console.WriteLine($"{i}. {item.Name} (is Assigned At: [{item.CurrentPosition.Item1}, {item.CurrentPosition.Item2}])");

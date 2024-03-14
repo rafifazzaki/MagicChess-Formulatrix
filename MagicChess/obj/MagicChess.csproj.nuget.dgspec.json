@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\rafif\\Documents\\GitHub\\MagicChess-Formulatrix\\MagicChess\\MagicChess.csproj": {}
+    "C:\\Users\\rafif\\Documents\\GitHub\\MagicChess-Formulatrix\\MagicChess\\MagicChess.csproj": {}
   },
   "projects": {
-    "c:\\Users\\rafif\\Documents\\GitHub\\MagicChess-Formulatrix\\MagicChess\\MagicChess.csproj": {
+    "C:\\Users\\rafif\\Documents\\GitHub\\MagicChess-Formulatrix\\MagicChess\\MagicChess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\rafif\\Documents\\GitHub\\MagicChess-Formulatrix\\MagicChess\\MagicChess.csproj",
+        "projectUniqueName": "C:\\Users\\rafif\\Documents\\GitHub\\MagicChess-Formulatrix\\MagicChess\\MagicChess.csproj",
         "projectName": "MagicChess",
-        "projectPath": "c:\\Users\\rafif\\Documents\\GitHub\\MagicChess-Formulatrix\\MagicChess\\MagicChess.csproj",
+        "projectPath": "C:\\Users\\rafif\\Documents\\GitHub\\MagicChess-Formulatrix\\MagicChess\\MagicChess.csproj",
         "packagesPath": "C:\\Users\\rafif\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\rafif\\Documents\\GitHub\\MagicChess-Formulatrix\\MagicChess\\obj\\",
+        "outputPath": "C:\\Users\\rafif\\Documents\\GitHub\\MagicChess-Formulatrix\\MagicChess\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\rafif\\AppData\\Roaming\\NuGet\\NuGet.Config"
