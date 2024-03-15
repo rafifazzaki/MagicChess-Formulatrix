@@ -2,13 +2,13 @@ namespace MagicChess;
 
 public interface IPlayerData
 {
-    public List<IPiece> Pieces { get; }
     public int HP { get; }
     public int Gold { get; }
     public int Exp { get; }
     public int Level { get; }
     public int MaxAssign { get; }
 
+    public List<IPiece> GetPieces();
     public int GetDamage(int damage);
 
     public int AddGold(int gold);

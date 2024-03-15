@@ -1,9 +1,10 @@
 ﻿using MagicChess;
+using MagicChess.PieceChar;
 /*
 To Do:
-	-Synergy
-	-Stars
     -Deserialization
+	-Stars
+	-Synergy
 
 Minor Bug:
     outside of board still not handled properly?
@@ -12,14 +13,16 @@ Minor Bug:
 
 To Be Done: 
     Alternating between 2 player
+    Prototype Design Pattern
 
 Later Feature: 
     -position based attack
 	-Range based attack
     -UI
+    -Lock store
 
 For The Future:
-    -Change tuple to class instead, because tuple is immutable
+    -Change tuple to class instead, because tuple is immutable (Piece CurrentPosition)
 
 Balancing:
     -Add more gold to more cheap piece
@@ -40,11 +43,47 @@ class Program
 
 
         List<IPiece> pieces = new();
+
+        #region add piece
         pieces.Add(new RedAxe("Axe 1"));
         pieces.Add(new RedAxe("Axe 2"));
         pieces.Add(new RedAxe("Axe 3"));
+        pieces.Add(new RedAxe("Axe 4"));
 
-        BattleStore store = new(3, pieces);
+        pieces.Add(new StonePanda("StonePanda 1"));
+        pieces.Add(new StonePanda("StonePanda 2"));
+        pieces.Add(new StonePanda("StonePanda 3"));
+        pieces.Add(new StonePanda("StonePanda 4"));
+
+        pieces.Add(new Unicorn("Unicorn 1"));
+        pieces.Add(new Unicorn("Unicorn 2"));
+        pieces.Add(new Unicorn("Unicorn 3"));
+        pieces.Add(new Unicorn("Unicorn 4"));
+
+        pieces.Add(new SoulReaper("SoulReaper 1"));
+        pieces.Add(new SoulReaper("SoulReaper 2"));
+        pieces.Add(new SoulReaper("SoulReaper 3"));
+        pieces.Add(new SoulReaper("SoulReaper 4"));
+
+        pieces.Add(new ShamanOfDesert("ShamanOfDesert 1"));
+        pieces.Add(new ShamanOfDesert("ShamanOfDesert 2"));
+        pieces.Add(new ShamanOfDesert("ShamanOfDesert 3"));
+        pieces.Add(new ShamanOfDesert("ShamanOfDesert 4"));
+
+        pieces.Add(new Pandoo("Pandoo 1"));
+        pieces.Add(new Pandoo("Pandoo 2"));
+        pieces.Add(new Pandoo("Pandoo 3"));
+        pieces.Add(new Pandoo("Pandoo 4"));
+
+        pieces.Add(new CaptainSpark("CaptainSpark 1"));
+        pieces.Add(new CaptainSpark("CaptainSpark 2"));
+        pieces.Add(new CaptainSpark("CaptainSpark 3"));
+        pieces.Add(new CaptainSpark("CaptainSpark 4"));
+        #endregion
+
+        BattleStore store = new(5, pieces);
+        Util.Shuffle(store.Pieces);
+        Util.Shuffle(store.Pieces);
 
         Player p1 = new(name1);
         PlayerData pd1 = new();
@@ -64,9 +103,10 @@ class Program
         string? answer = "";
         while (!gc.IsGameEnded)
         {
-
-            foreach (var playerData in gc.PlayersData)
+            // give winner
+            foreach (var playerData in gc.playersData)
             {
+                Console.Clear();
                 MainMenu(gc, playerData, answer);
             }
 
@@ -74,7 +114,7 @@ class Program
 
             foreach (var item in gc.PlayersTurn)
             {
-                if (gc.PlayersData[item].HP <= 0)
+                if (gc.playersData[item].HP <= 0)
                 {
                     gc.SetGameEnded();
                 }
@@ -94,6 +134,8 @@ class Program
             {
                 Console.WriteLine($"{item.Value.Name}: {item.Key.Name}, HP: {item.Key.CurrentHP}");
             }
+// // // // // // // // HERE: Check For Stars (add stats) 
+            // loop to check Ipiece, count 
 
             // Check if there was a player that doesn't have pieces left
             foreach (var item in gc.PlayersTurn)
@@ -103,25 +145,26 @@ class Program
                 {
                     isDone = true;
                     Console.WriteLine($"{item.Name} Got {piecesQueue.Count} damage!");
-                    gc.PlayersData[item].GetDamage(piecesQueue.Count);
+                    gc.playersData[item].GetDamage(piecesQueue.Count);
 
                     Console.WriteLine("break");
                     Console.ReadLine();
                     break;
                 }
             }
-            Console.ReadLine();
+            
             if (isDone)
             {
                 // piecesQueue.Clear();
                 foreach (var item in gc.PlayersTurn)
                 {
-                    gc.PlayersData[item].AddGold(10); //CHECK HERE, can be more flexible
-                    gc.PlayersData[item].IncreaseExp(10);
+                    gc.playersData[item].AddGold(2); //CHECK HERE, can be more flexible
+                    gc.playersData[item].IncreaseExp(3);
                 }
                 piecesQueue = null;
                 break;
             }
+            Console.ReadLine();
             Console.WriteLine("Both player still has piece(s)");
 
             // check if the player is not same, if yes then attack it
@@ -162,13 +205,14 @@ class Program
 
     static void MainMenu(GameController gc, KeyValuePair<IPlayer, IPlayerData> playerData, string answer)
     {
-        while (playerData.Key == gc.CurrentPlayer)
+        while (playerData.Key == gc.currentPlayer)
         {
+            
             Console.Clear();
             Console.WriteLine($"Player: {playerData.Key.Name}");
             Console.WriteLine($"HP: {playerData.Value.HP}, Gold: {playerData.Value.Gold}, Exp: {playerData.Value.Exp}");
-            // CHECK HERE
-            Console.WriteLine($"Lv: {playerData.Value.Level}, Piece Assigned: {gc.arena.GetPiecesByPlayer(gc.CurrentPlayer).Count}/{gc.PlayersData[gc.CurrentPlayer].MaxAssign}");
+            
+            Console.WriteLine($"Lv: {playerData.Value.Level}, Piece Assigned: {gc.arena.GetPiecesByPlayer(gc.currentPlayer).Count}/{gc.GetCurrentPlayerData().MaxAssign}");
 
             Console.WriteLine("1. Info");
             Console.WriteLine("2. Assign");
@@ -197,6 +241,7 @@ class Program
                 case "5":
                     // code block
                     CheckBoard(gc);
+                    // Console.Clear();
                     break;
                 case "6":
                     // code block
@@ -220,7 +265,7 @@ class Program
             Console.Clear();
             int i = 1;
 
-            foreach (var item in gc.PlayersData[gc.CurrentPlayer].Pieces)
+            foreach (var item in gc.GetCurrentPlayerData().pieces)
             {
                 Console.WriteLine(
                     $"{i}. {item.Name} (${item.Price}) :::: HP {item.HP}, ATK {item.AttackPoint}");
@@ -230,12 +275,12 @@ class Program
 
             string answer = Console.ReadLine();
 
-            if (int.TryParse(answer, out int choice) && choice >= 1 && choice <= gc.PlayersData[gc.CurrentPlayer].Pieces.Count())
+            if (int.TryParse(answer, out int choice) && choice >= 1 && choice <= gc.GetCurrentPlayerData().pieces.Count())
             {
-                IPiece piece = gc.PlayersData[gc.CurrentPlayer].Pieces[choice - 1];
+                IPiece piece = gc.GetCurrentPlayerData().pieces[choice - 1];
                 gc.store.Pieces.Add(piece);
-                gc.PlayersData[gc.CurrentPlayer].AddGold(piece.Price);
-                gc.PlayersData[gc.CurrentPlayer].Pieces.Remove(piece);
+                gc.GetCurrentPlayerData().AddGold(piece.Price);
+                gc.GetCurrentPlayerData().pieces.Remove(piece);
                 Console.WriteLine($"{piece.Name} is Sold!");
                 Console.ReadLine();
                 break;
@@ -253,23 +298,24 @@ class Program
         // if player level > exp & gold is sufficient
         // can level up with gold
         // add assign on roundData
+        Console.Clear();
         bool isCanLevelUp = false;
         int expToLevelUp = 0;
         string answer = "";
         // while(true){
         // get array of number on exp needed
-        foreach (int item in gc.Rule.ExpNeedForLevel)
+        foreach (int item in gc.rule.ExpNeedForLevel)
         {
-            if (gc.PlayersData[gc.CurrentPlayer].Exp >= item)
+            if (gc.GetCurrentPlayerData().Exp >= item)
             {
                 isCanLevelUp = true;
                 expToLevelUp = item;
                 break;
             }
         }
-        Console.WriteLine($"EXP: {gc.PlayersData[gc.CurrentPlayer].Exp}, Exp for Level Up: {expToLevelUp}");
+        Console.WriteLine($"EXP: {gc.GetCurrentPlayerData().Exp}, Exp for Level Up: {expToLevelUp}");
 
-        if (gc.PlayersData[gc.CurrentPlayer].Level >= Rule.maxLevel)
+        if (gc.GetCurrentPlayerData().Level >= Rule.MaxLevel)
         {
             Console.WriteLine("Your Level is Maxed Out");
             Console.ReadLine();
@@ -280,7 +326,7 @@ class Program
         {
             // store
             Console.WriteLine("Your Exp is Sufficient to level up!");
-            Console.WriteLine($"Gold Needed: {gc.Rule.GoldToLevelPrice[gc.PlayersData[gc.CurrentPlayer].Level - 1]}");
+            Console.WriteLine($"Gold Needed: {gc.rule.GoldToLevelPrice[gc.GetCurrentPlayerData().Level - 1]}");
             Console.WriteLine("Level Up?");
             Console.WriteLine("1. Yes");
             Console.WriteLine("2. Back");
@@ -293,10 +339,10 @@ class Program
                     // CHECK HERE, check maximum level
 
                     // check if player's level more than 1, then check gold
-                    if (gc.PlayersData[gc.CurrentPlayer].Level > 1)
+                    if (gc.GetCurrentPlayerData().Level > 1)
                     {
-                        int tempGold = gc.PlayersData[gc.CurrentPlayer].Gold - gc.Rule.GoldToLevelPrice[gc.PlayersData[gc.CurrentPlayer].Level - 1];
-                        Console.WriteLine($"tempGold: {gc.PlayersData[gc.CurrentPlayer].Gold} - {gc.Rule.GoldToLevelPrice[gc.PlayersData[gc.CurrentPlayer].Level - 1]} = {tempGold}");
+                        int tempGold = gc.GetCurrentPlayerData().Gold - gc.rule.GoldToLevelPrice[gc.GetCurrentPlayerData().Level - 1];
+                        Console.WriteLine($"tempGold: {gc.GetCurrentPlayerData().Gold} - {gc.rule.GoldToLevelPrice[gc.GetCurrentPlayerData().Level - 1]} = {tempGold}");
                         if (tempGold < 0)
                         {
                             Console.WriteLine("Insuffient Gold");
@@ -306,13 +352,13 @@ class Program
                     }
 
 
-                    gc.PlayersData[gc.CurrentPlayer].IncreaseLevel();
-                    gc.PlayersData[gc.CurrentPlayer].SetCurrentMaxAssign(gc.Rule.PiecesPerLevel[gc.PlayersData[gc.CurrentPlayer].Level - 1]);
-                    gc.PlayersData[gc.CurrentPlayer].RemoveGold(gc.Rule.GoldToLevelPrice[gc.PlayersData[gc.CurrentPlayer].Level - 2]);
+                    gc.GetCurrentPlayerData().IncreaseLevel();
+                    gc.GetCurrentPlayerData().SetCurrentMaxAssign(gc.rule.PiecesPerLevel[gc.GetCurrentPlayerData().Level - 1]);
+                    gc.GetCurrentPlayerData().RemoveGold(gc.rule.GoldToLevelPrice[gc.GetCurrentPlayerData().Level - 2]);
 
                     Console.WriteLine("Level Up Successful!");
-                    Console.WriteLine($"Current Level: {gc.PlayersData[gc.CurrentPlayer].Level}");
-                    Console.WriteLine("Now You can assign up to: " + gc.Rule.PiecesPerLevel[gc.PlayersData[gc.CurrentPlayer].Level - 1]);
+                    Console.WriteLine($"Current Level: {gc.GetCurrentPlayerData().Level}");
+                    Console.WriteLine("Now You can assign up to: " + gc.rule.PiecesPerLevel[gc.GetCurrentPlayerData().Level - 1]);
                     Console.ReadLine();
 
                     break;
@@ -335,14 +381,15 @@ class Program
         // assign pieces to PiecesPerRound
         // gc.SetPiecesToFight(gc.CurrentPlayer, )
 
-        gc.NextTurn(gc.CurrentPlayer);
+        gc.NextTurn(gc.currentPlayer);
     }
 
     static void CheckBoard(GameController gc)
     {
         string? answer;
-        while (true)
-        {
+        // while (true)
+        // {
+            Console.Clear();
             Console.WriteLine("===================================");
             Console.WriteLine("Board: ");
             Console.WriteLine("===================================");
@@ -375,9 +422,11 @@ class Program
             answer = Console.ReadLine();
             if (answer == "1")
             {
-                break;
+                Console.Clear();
+                return;
             }
-        }
+            Console.Clear();
+        // }
     }
 
     static void Info(GameController gc)
@@ -386,15 +435,28 @@ class Program
         while (true)
         {
             Console.Clear();
-            Console.WriteLine($"Player: {gc.CurrentPlayer.Name}");
+            Console.WriteLine($"Player: {gc.currentPlayer.Name}");
             Console.WriteLine(
-                $"Gold: {gc.PlayersData[gc.CurrentPlayer].Gold}, Exp: {gc.PlayersData[gc.CurrentPlayer].Exp}, Lvl: {gc.PlayersData[gc.CurrentPlayer].Level}"
+                $"Gold: {gc.GetCurrentPlayerData().Gold}, Exp: {gc.GetCurrentPlayerData().Exp}, Lvl: {gc.GetCurrentPlayerData().Level}"
                 );
             Console.WriteLine("===================================");
             Console.WriteLine("current Pieces: ");
             Console.WriteLine("===================================");
             int i = 1;
-            foreach (var item in gc.PlayersData[gc.CurrentPlayer].Pieces)
+            // check if item is assigned
+
+            // if(gc.IsPieceAssigned(item)){
+
+            // }else{
+                
+            // }
+            // is assigned
+            // get assigned piece in player
+            foreach (var item in gc.GetPlayerAssignedPieces(gc.currentPlayer))
+            {
+                
+            }
+            foreach (IPiece item in gc.GetCurrentPlayerData().GetPieces())
             {
                 if (item.IsAssigned)
                 {
@@ -431,7 +493,7 @@ class Program
             Console.WriteLine("FORMAT: Piece(space)X_Axis(space)Y_Axis");
             Console.WriteLine("EXAMPLE: \"1 0 0\"");
             Console.WriteLine("===================================");
-            foreach (var item in gc.PlayersData[gc.CurrentPlayer].Pieces)
+            foreach (var item in gc.GetCurrentPlayerData().pieces)
             {
                 // BUG, the second not showing???
                 if (item.IsAssigned)
@@ -455,7 +517,7 @@ class Program
             {
 
                 // Check If you can still Assign a piece (still below limit)
-                gc.arena.SetPiecePosition(gc.CurrentPlayer, piece, x, y);
+                gc.arena.SetPiecePosition(gc.currentPlayer, piece, x, y);
                 Console.WriteLine("Pieces Assigned");
                 Console.ReadLine();
                 break;
@@ -475,12 +537,14 @@ class Program
 
     static void ShowStore(GameController gc)
     {
+        List<IPiece> pieces = gc.PieceOnStore(false);
+        Util.Shuffle(gc.store.Pieces);
         while (true)
         {
             Console.Clear();
             int i = 1;
 
-            foreach (var item in gc.PieceOnStore(false))
+            foreach (var item in pieces)
             {
                 Console.WriteLine(
                     $"{i}. {item.Name} (${item.Price}) :::: HP {item.HP}, ATK {item.AttackPoint}");
@@ -489,16 +553,16 @@ class Program
             Console.WriteLine($"{i}. Back");
 
             string answer = Console.ReadLine();
-
-            if (int.TryParse(answer, out int choice) && choice >= 1 && choice <= gc.PieceOnStore(false).Count())
+      
+            if (int.TryParse(answer, out int choice) && choice >= 1 && choice <= pieces.Count())
             {
                 // Check if player's Gold is sufficient
-                if (gc.PlayersData[gc.CurrentPlayer].Gold >= gc.PieceOnStore(false)[choice - 1].Price)
+                if (gc.GetCurrentPlayerData().Gold >= pieces[choice - 1].Price)
                 {
-                    Console.WriteLine($"You Bought: {gc.PieceOnStore(false)[choice - 1].Name}!");
-                    gc.PlayersData[gc.CurrentPlayer].AddPiece(gc.PieceOnStore(false)[choice - 1]);
-                    gc.store.Pieces.Remove(gc.PieceOnStore(false)[choice - 1]);
-                    gc.PlayersData[gc.CurrentPlayer].RemoveGold(gc.PieceOnStore(false)[choice - 1].Price);
+                    Console.WriteLine($"You Bought: {pieces[choice - 1].Name}!");
+                    gc.GetCurrentPlayerData().AddPiece(pieces[choice - 1]);
+                    gc.store.Pieces.Remove(pieces[choice - 1]);
+                    gc.GetCurrentPlayerData().RemoveGold(pieces[choice - 1].Price);
                     Console.ReadLine();
                 }
                 else
@@ -516,6 +580,7 @@ class Program
             {
                 Console.WriteLine("Invalid choice!");
             }
+            Console.ReadLine();
             i = 0;
         }
     }

@@ -9,6 +9,7 @@ public class BattleArena : IBattleArena
     public IPiece[,] PiecesPosition { get; private set; }
     public Dictionary<IPiece, IPlayer> PiecePlayer { get; private set; }
 
+    
     public List<IPiece> GetPiecesByPlayer(IPlayer player)
     {
         // Use LINQ to filter the dictionary based on the player and extract pieces
@@ -79,18 +80,26 @@ public class BattleArena : IBattleArena
         string[] numbersString = input.Split(' ');
 
         int num1, num2, num3;
-
-        if (numbersString.Length == 3 &&
+// validasi
+        try
+        {
+            if (numbersString.Length == 3 &&
             int.TryParse(numbersString[0], out num1) &&
             int.TryParse(numbersString[1], out num2) &&
             int.TryParse(numbersString[2], out num3))
         {
             // get the appropriate piece number
             // PlayersData[gc.CurrentPlayer].Pieces
-            piece = gc.PlayersData[gc.CurrentPlayer].Pieces[num1 - 1];
+            piece = gc.playersData[gc.currentPlayer].pieces[num1 - 1];
             x = num2;
             y = num3;
             return true;
+        }
+        }
+        catch (System.Exception)
+        {
+            
+            return false;
         }
         return false;
     }

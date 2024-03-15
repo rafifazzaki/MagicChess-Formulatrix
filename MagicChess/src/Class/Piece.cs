@@ -2,6 +2,7 @@
 public class Piece : IPiece
 {
     public string Name { get; protected set; }
+    public string CharName { get; protected set; }
     public Races Races { get; protected set; }
     public PieceClass Class { get; protected set; }
     public int Price { get; protected set; }
@@ -16,7 +17,6 @@ public class Piece : IPiece
     public AttackType attackType { get; protected set; }
     public int DamageToPlayer {get; protected set;}
     public bool IsAssigned {get; private set;}
-    public int MoveSpeed { get; protected set; }
 
     private (int, int) initialPosition = (-1, -1);
 
@@ -72,14 +72,5 @@ public class Piece : IPiece
         return true;
     }
 
-    public bool MoveToLocation()
-    {
-        throw new NotImplementedException();
-    }
-
-    public bool PickTarget()
-    {
-        throw new NotImplementedException();
-    }
 }
 

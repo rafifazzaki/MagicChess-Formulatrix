@@ -2,18 +2,20 @@ namespace MagicChess;
 
 public class PlayerData : IPlayerData
 {
-    public List<IPiece> Pieces { get; }
+    public List<IPiece> pieces;// { get; } //sama, method baru aja (ienumerable)
     public int HP { get; private set; }
     public int Gold { get; private set; }
     public int Exp { get; private set; }
     public int Level { get; private set; }
     public int MaxAssign { get; private set; }
 
-
+    public List<IPiece> GetPieces(){
+        return pieces;
+    }
 
     public PlayerData()
     {
-        Pieces = new();
+        pieces = new();
         HP = 10;
         Gold = 2;
         Exp = 0;
@@ -38,7 +40,7 @@ public class PlayerData : IPlayerData
     }
     public bool AddPiece(IPiece piece)
     {
-        Pieces.Add(piece);
+        pieces.Add(piece);
         return true;
     }
     public bool IncreaseLevel()
