@@ -40,6 +40,9 @@ public class PlayerData : IPlayerData
     }
     public bool AddPiece(IPiece piece)
     {
+        if(piece == null){
+            return false;
+        }
         pieces.Add(piece);
         return true;
     }

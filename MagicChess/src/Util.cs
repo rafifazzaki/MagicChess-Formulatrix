@@ -39,6 +39,30 @@ public static class Util
     //     }
     // }
 
+    public static bool ParseInputXY(string input, out string choice, out int x, out int y)
+    {
+        x = 0;
+        y = 0;
+        choice = "";
+
+        string[] numbersString = input.Split(' ');
+
+        int num1, num2, num3;
+
+        if (numbersString.Length == 3 &&
+            int.TryParse(numbersString[0], out num1) &&
+            int.TryParse(numbersString[1], out num2) &&
+            int.TryParse(numbersString[2], out num3))
+        {
+            // get the appropriate piece number
+            // PlayersData[gc.CurrentPlayer].Pieces
+            choice = num1.ToString();
+            x = num2;
+            y = num3;
+            return true;
+        }
+        return false;
+    }
     
 
     public class NumberInputException : Exception

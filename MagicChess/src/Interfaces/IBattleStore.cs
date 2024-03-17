@@ -2,7 +2,7 @@ namespace MagicChess;
 
 public interface IBattleStore{
     int PiecesToShow {get;}
-    List<IPiece> Pieces {get;}
+    public List<IPiece> GetPieces();
 
     // IEnumerable<IPiece> ShowStore();
     // bool ShuffleDeck();
