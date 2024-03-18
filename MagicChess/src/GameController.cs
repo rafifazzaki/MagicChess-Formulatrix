@@ -1,4 +1,4 @@
-using Spectre.Console;
+using System.Text.Json;
 
 namespace MagicChess;
 
@@ -6,16 +6,19 @@ public class GameController : IAutoChessGameController
 {
     public bool IsGameEnded {get; private set;}
     public int BattleRound { get; private set; }
-    Dictionary<IPlayer, IPlayerData> playersData;// { get; private set; }
-    IBattleArena arena;// { get; private set; }
-    IBattleStore store;// { get; private set; }
-    IPlayer[] PlayersTurn;// {get; private set;}
-    IPlayer currentPlayer; //{get; private set;}
-    IRule rule;// {get; private set;}
-    PieceBattleLog pieceBattleLog;
+    Dictionary<IPlayer, IPlayerData> playersData;
+    IBattleArena arena;
+    IBattleStore store;
+    IPlayer[] PlayersTurn;
+    IPlayer currentPlayer;
+    IRule rule;
+    internal IBattleLogger battleLogger;
 
     #region GetReferenceType
     
+    public IBattleLogger GetBattleLogger(){
+        return battleLogger;
+    }
     
     public IRule GetRule(){
         return rule;
@@ -73,13 +76,8 @@ public class GameController : IAutoChessGameController
     }
     #endregion
 
-    #region Checks
-    // public bool IsPieceAssigned(IPiece piece){
-    //         return piece.IsAssigned;
-    //     }
-    #endregion
 
-    #region GameFunction
+    #region Checks
     public bool IsAnyPlayerDie(){
         bool isAnyDie = false;
         foreach (var item in PlayersTurn)
@@ -120,7 +118,7 @@ public class GameController : IAutoChessGameController
 
 
 
-    public GameController(IBattleArena arena, IBattleStore store, Rule rule, Dictionary<IPlayer, IPlayerData> playersData)
+    public GameController(IBattleArena arena, IBattleStore store, Rule rule, Dictionary<IPlayer, IPlayerData> playersData, IBattleLogger battleLogger)
     {
         this.arena = arena;
         this.store = store;
@@ -136,14 +134,13 @@ public class GameController : IAutoChessGameController
             PlayersTurn[i] = item.Key;
             i++;
         }
-        pieceBattleLog = new();
+        this.battleLogger = battleLogger;
     }
 
     public IPiece GetPlayerPiece(int index){
         return playersData[currentPlayer].GetPieces()[index - 1];
     }
 
-// `ienumerable
     public IEnumerable<IPiece> GetPieces(){
         return store.GetPieces();
     }
@@ -154,7 +151,6 @@ public class GameController : IAutoChessGameController
         return true;
     }
 
-// ienumerable
     public List<IPiece> PieceOnStore(){
         
         // if(shuffle) {
@@ -190,8 +186,11 @@ public class GameController : IAutoChessGameController
         return false;
     }
 
+
+    
+
     public bool IsLevelMaxed(IPlayer player){
-        if (GetCurrentPlayerData().Level >= Rule.MaxLevel)
+        if (GetCurrentPlayerData().Level >= rule.MaxLevel)
         {
             return true;
         }
@@ -242,10 +241,8 @@ public class GameController : IAutoChessGameController
     }
 
 
-    public bool AutoAttack(out ILogger pieceLog){
+    public bool AutoAttack(ref IBattleLogger pieceLog){
         // dictionary ngga pasti urut
-
-        pieceLog = new PieceBattleLog();
         if(arena.GetPlayersAndPieces().Count < 2){
             return false;
         }

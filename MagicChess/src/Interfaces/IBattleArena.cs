@@ -16,5 +16,5 @@ public interface IBattleArena
     public bool IsCanAssign(int x, int y);
     
     public bool IsAnyPiecesEmpty(IPlayer[] playerTurns, out IPlayer playerLose);
-    public bool isEnoughPlayer(IPlayer[] playersTurn, out IPlayer player);
+    public bool IsEnoughPlayer(IPlayer[] playersTurn, out IPlayer player);
 }

@@ -14,6 +14,7 @@ public class DeadPieceInfo{
     public IPlayer GetPlayer(){
         return player;
     }
+    
     public IPiece GetPiece(){
         return piece;
     }

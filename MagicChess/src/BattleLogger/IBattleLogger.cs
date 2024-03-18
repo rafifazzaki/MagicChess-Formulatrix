@@ -1,6 +1,6 @@
 namespace MagicChess;
 
-public interface ILogger{
+public interface IBattleLogger{
     int Number {get;}
     string Name {get;}
     public int Turns {get;}

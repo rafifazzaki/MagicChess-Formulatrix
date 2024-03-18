@@ -1,4 +1,5 @@
-﻿using MagicChess;
+﻿using System.Text.Json;
+using MagicChess;
 using MagicChess.PieceChar;
 // check "TANYA"
 /*
@@ -35,6 +36,15 @@ class Program
 
     static void Main()
     {
+        // Console.WriteLine("in");
+        // DeserializeRule();
+        // // DeserializeRuleCHATGPT();
+        // // SerializeRule();
+        // // SerializePieces();
+        // DeserializePieces();
+
+        // Console.WriteLine("out");
+        // return;
         #region Game Setup
         Console.WriteLine("input player 1 name:");
         string? name1 = Console.ReadLine();
@@ -45,8 +55,15 @@ class Program
         BattleArena arena = new("Default", 4);
 
 
+        List<Piece> deserialized = Util.DeserializePieces("pieces.json");//new();
         List<IPiece> pieces = new();
+        foreach (var item in deserialized)
+        {
+            IPiece convertedPiece = item;
+            pieces.Add(convertedPiece);
+        }
 
+/*
         #region add piece
         pieces.Add(new RedAxe("Axe 1"));
         pieces.Add(new RedAxe("Axe 2"));
@@ -83,7 +100,7 @@ class Program
         pieces.Add(new CaptainSpark("CaptainSpark 3"));
         pieces.Add(new CaptainSpark("CaptainSpark 4"));
         #endregion
-
+*/
         BattleStore store = new(5, pieces);
         Util.Shuffle(store.GetPieces());
         Util.Shuffle(store.GetPieces());
@@ -97,13 +114,16 @@ class Program
         playersData.Add(p1, pd1);
         playersData.Add(p2, pd2);
 
-        Rule rule = new Rule();
+        Rule rule = Util.DeserializeRule("rule.json");//new Rule();
+        PieceBattleLog pieceBattleLog = new();
 
-        GameController gc = new(arena, store, rule, playersData);
+        GameController gc = new(arena, store, rule, playersData, pieceBattleLog);
 
         #endregion
 
         string? answer = "";
+
+        
         while (!gc.IsGameEnded)
         {
             // give winner
@@ -131,7 +151,6 @@ class Program
             }
         }
     }
-
     static void AutoBattle(GameController gc)
     {
         // get pieces from arena: playersAndPieces
@@ -165,7 +184,7 @@ class Program
             Console.WriteLine("in");
 
             // Check if one of the player not assign a piece
-            if(!gc.GetArena().isEnoughPlayer(gc.GetPlayersTurn(), out IPlayer player)){
+            if(!gc.GetArena().IsEnoughPlayer(gc.GetPlayersTurn(), out IPlayer player)){
                 isDone = true;
                 gc.GetPlayerData(player).GetDamage(playersAndPieces.Count);
                     
@@ -203,20 +222,20 @@ class Program
 
 
             // check if the player is not same, if yes then attack it
-            if(gc.AutoAttack(out ILogger pieceBattleLog)){
+            if(gc.AutoAttack(ref gc.battleLogger)){
                 
-                for (int i = 0; i < pieceBattleLog.Turns; i++)
+                for (int i = 0; i < gc.battleLogger.Turns; i++)
                 {
-                    Console.WriteLine(pieceBattleLog.GetAttackerPieces()[i]);
-                    Console.WriteLine(pieceBattleLog.GetAttackerPlayer()[i]);
-                    Console.WriteLine(pieceBattleLog.GetDamagedPieces()[i]);
+                    Console.WriteLine(gc.battleLogger.GetAttackerPieces()[i]);
+                    Console.WriteLine(gc.battleLogger.GetAttackerPlayer()[i]);
+                    Console.WriteLine(gc.battleLogger.GetDamagedPieces()[i]);
                     // $"([player]): [damagedPiece] got [damage] damage by [attacker], HP left: [damagedHP] "
                     Console.WriteLine(
-                        $"({pieceBattleLog.GetAttackerPlayer()[i]}): " +
-                        $"{pieceBattleLog.GetDamagedPieces()[i]} " +
-                        $"got {pieceBattleLog.GetAttackerPieces()[i].AttackPoint} dmg " +
-                        $"by {pieceBattleLog.GetAttackerPieces()[i]}, " +
-                        $"HP left: {pieceBattleLog.GetDamagedPieces()[i].CurrentHP}"
+                        $"({gc.battleLogger.GetAttackerPlayer()[i]}): " +
+                        $"{gc.battleLogger.GetDamagedPieces()[i]} " +
+                        $"got {gc.battleLogger.GetAttackerPieces()[i].AttackPoint} dmg " +
+                        $"by {gc.battleLogger.GetAttackerPieces()[i]}, " +
+                        $"HP left: {gc.battleLogger.GetDamagedPieces()[i].CurrentHP}"
                     );
                     Console.WriteLine("then..");
 
@@ -308,24 +327,25 @@ class Program
                 i++;
             }
             Console.WriteLine($"{i}. Back");
-
+            
             string answer = Console.ReadLine();
 
-            if (int.TryParse(answer, out int choice) && choice >= 1 && choice <= gc.GetCurrentPlayerData().GetPieces().Count())
+            if (answer == i++.ToString())
             {
+                break;
+            }
+            else if (int.TryParse(answer, out int choice))
+            {
+                Console.WriteLine(choice + "<-choice");
                 IPiece piece = gc.GetCurrentPlayerData().GetPieces()[choice - 1];
                 gc.GetStore().GetPieces().Add(piece);
                 gc.GetCurrentPlayerData().AddGold(piece.Price);
                 gc.GetCurrentPlayerData().GetPieces().Remove(piece);
+                gc.GetArena().RemovePieceFromBoard(gc.GetCurrentPlayer(), piece);
                 Console.WriteLine($"{piece.Name} is Sold!");
                 Console.ReadLine();
                 break;
             }
-            else if (answer == i++.ToString())
-            {
-                break;
-            }
-            i = 0;
         }
     }
 
@@ -351,7 +371,7 @@ class Program
             }
         }
 
-        if (gc.GetCurrentPlayerData().Level >= Rule.MaxLevel)
+        if (gc.GetCurrentPlayerData().Level >= gc.GetRule().MaxLevel)
         {
             Console.WriteLine("Your Level is Maxed Out");
             Console.ReadLine();
@@ -514,6 +534,11 @@ class Program
             // check and parse from answer
             if(!Util.ParseInputXY(answer, out string choice, out int x, out int y)){
                 Console.WriteLine("Invalid Input");
+                Console.ReadLine();
+                break;
+            }
+
+            if(int.TryParse(choice, out int answerNumber) && answerNumber > i){
                 break;
             }
 
@@ -573,9 +598,10 @@ class Program
                 break;
             }
 
-            if (!int.TryParse(answer, out int choice) && choice >= 1 && choice <= pieces.Count()){
+            if (!int.TryParse(answer, out int choice) || choice < 1 || choice > pieces.Count()){
                 Console.WriteLine("Invalid choice");
                 Console.ReadLine();
+                break;
             }
             // here
             Console.ReadLine();

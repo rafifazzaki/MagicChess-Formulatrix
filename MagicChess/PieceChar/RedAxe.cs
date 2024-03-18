@@ -30,7 +30,6 @@ public class RedAxe : Piece
         AttackSpeed = 2;
         AttackRange = 2;
         attackType = AttackType.WideFront;
-        // MoveSpeed = 2;
         Races = Races.Cave;
         Class = PieceClass.Warrior;
         DamageToPlayer = 3;

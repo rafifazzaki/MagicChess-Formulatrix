@@ -1,22 +1,21 @@
 
 public class Piece : IPiece
 {
-    public string Name { get; protected set; }
-    public string CharName { get; protected set; }
-    public Races Races { get; protected set; }
-    public PieceClass Class { get; protected set; }
-    public int Price { get; protected set; }
-    public StarLevel StarLevel { get; protected set; }
-    public int HP { get; protected set; }
-    public int Armor { get; protected set; }
-    public int CurrentHP { get; protected set; }
-    public (int, int) CurrentPosition {get; protected set;}
-    public int AttackPoint { get; protected set; }
-    public int AttackSpeed { get; protected set; }
-    public int AttackRange { get; protected set; }
-    public AttackType attackType { get; protected set; }
-    public int DamageToPlayer {get; protected set;}
-    public bool IsAssigned {get; private set;}
+    public string Name { get; set; }
+    public Races Races { get; set; }
+    public PieceClass Class { get; set; }
+    public int Price { get; set; }
+    public StarLevel StarLevel { get; set; }
+    public int HP { get; set; }
+    public int Armor { get; set; }
+    public int CurrentHP { get; set; }
+    public (int, int) CurrentPosition {get; protected set;} = (-1, -1);
+    public int AttackPoint { get; set; }
+    public int AttackSpeed { get; set; }
+    public int AttackRange { get; set; }
+    public AttackType attackType { get; set; }
+    public int DamageToPlayer {get; set;}
+    public bool IsAssigned {get; private set;} = false;
 
     private (int, int) initialPosition = (-1, -1);
 
@@ -26,22 +25,23 @@ public class Piece : IPiece
         IsAssigned = false;
     }
 
-    // public Piece(string Name, int Price, int HP, int Armor, int AttackPoint,int AttackSpeed,
-    // int AttackRange, AttackType attackType , int MoveSpeed, Races races, PieceClass pieceClass){
-    //     this.Name = Name;
-    //     this.Price = Price;
-    //     this.HP = HP;
-    //     this.Armor = Armor;
-    //     this.AttackPoint = AttackPoint;
-    //     this.AttackSpeed = AttackSpeed;
-    //     this.AttackRange = AttackRange;
-    //     this.MoveSpeed = MoveSpeed;
-    //     this.attackType = attackType;
-    //     this.Races = races;
-    //     this.Class = pieceClass;
-    //     StarLevel = StarLevel.One;
-    //     CurrentHP = HP;
-    // }
+
+    public Piece(string Name, int Price, int HP, int Armor, int AttackPoint,int AttackSpeed,
+    int AttackRange, int DamageToPlayer, AttackType attackType, Races races, PieceClass pieceClass){
+        this.Name = Name;
+        this.Price = Price;
+        this.HP = HP;
+        CurrentHP = HP;
+        this.Armor = Armor;
+        this.AttackPoint = AttackPoint;
+        this.AttackSpeed = AttackSpeed;
+        this.AttackRange = AttackRange;
+        this.attackType = attackType;
+        this.DamageToPlayer = DamageToPlayer;
+        Races = races;
+        Class = pieceClass;
+        StarLevel = StarLevel.One;
+    }
 
     public bool SetAssignedToTrue(){
         IsAssigned = true;

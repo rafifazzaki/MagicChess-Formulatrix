@@ -1,6 +1,5 @@
 public interface IPiece : IPieceAttack{
     string Name {get;}
-    string CharName { get; }
     Races Races {get;}
     PieceClass Class {get;}
     int Price {get;}

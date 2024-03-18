@@ -1,3 +1,4 @@
+using System.Text.Json;
 namespace MagicChess;
 #region payTheirDue
 // https://stackoverflow.com/questions/273313/randomize-a-listt
@@ -19,25 +20,26 @@ public static class Util
             list[n] = value;
         }
     }
-    // public static void ParseIntChar(string input, out int number, out char text)
-    // {
-    //     number = 0;
-    //     text = ' ';
 
-    //     string numberPart = input.Substring(0, input.Length - 1); // Extract the number part
-    //     string charPart = input.Substring(input.Length - 1);     // Extract the character part
+    public static List<Piece> DeserializePieces(string path){
+        string result;
+        using(StreamReader sr = new(path)) 
+		{
+			result = sr.ReadToEnd();
+		}
+		List<Piece> pieces = JsonSerializer.Deserialize<List<Piece>>(result);
+        return pieces;
+    }
 
-    //     // Parse the number part into an integer
-    //     if (int.TryParse(numberPart, out int intResult))
-    //     {
-    //         number = intResult;
-    //         text = charPart.ToCharArray()[0];
-    //     }
-    //     else
-    //     {
-    //         Console.WriteLine("Invalid input format.");
-    //     }
-    // }
+    public static Rule DeserializeRule(string path){
+        string result;
+        using(StreamReader sr = new(path)) 
+		{
+			result = sr.ReadToEnd();
+		}
+		Rule rule = JsonSerializer.Deserialize<Rule>(result);
+		return rule;
+    }
 
     public static bool ParseInputXY(string input, out string choice, out int x, out int y)
     {
@@ -63,8 +65,41 @@ public static class Util
         }
         return false;
     }
-    
 
+    static void SerializeTestRule(){
+        
+        int MaxLevel = 5;
+        int[] GoldToLevelPrice = new int[5]{0, 3, 4, 6, 7};
+        int[] ExpNeedForLevel = new int[5] {3, 5, 8, 12, 17};
+        int[] PiecesPerLevel = new int[5] {3, 4, 5, 6, 7};
+
+        Rule rule = new Rule(MaxLevel, GoldToLevelPrice, ExpNeedForLevel, PiecesPerLevel);
+		
+		string json = JsonSerializer.Serialize(rule);
+		using(StreamWriter sw = new("rule.json")) 
+		{
+			sw.Write(json);
+		}
+    }
+    static void SerializeTestPieces(){
+
+		List<Piece> pieces = new();
+        pieces.Add(new Piece("Red Axe 1", 1, 7, 1, 2, 2, 2, 3, AttackType.WideFront, Races.Cave, PieceClass.Warrior));
+        pieces.Add(new Piece("CaptainSpark 1", 1, 5, 0, 1, 2, 2, 3, AttackType.Straight, Races.Human, PieceClass.Hunter));
+        pieces.Add(new Piece("Pandoo 1", 1, 3, 0, 1, 1, 1, 3, AttackType.Area, Races.Pandaman, PieceClass.Mage));
+        pieces.Add(new Piece("ShamanOfDesert 1", 2, 4, 0, 3, 2, 2, 3, AttackType.Area, Races.Cave, PieceClass.Mage));
+        pieces.Add(new Piece("SoulReaper 1", 2, 4, 0, 3, 2, 2, 3, AttackType.Area, Races.Demon, PieceClass.Warlock));
+        pieces.Add(new Piece("StonePanda", 2, 6, 3, 2, 2, 2, 3, AttackType.WideFront, Races.Pandaman, PieceClass.Mage));
+        pieces.Add(new Piece("Unicorn 1",1, 5, 3, 2, 2, 2, 3, AttackType.Straight, Races.Feathered, PieceClass.Hunter));
+
+
+		string json = JsonSerializer.Serialize(pieces);
+		using(StreamWriter sw = new("pieces.json")) 
+		{
+			sw.Write(json);
+		}
+    }
+    
     public class NumberInputException : Exception
     {
         public NumberInputException(string message) : base(message)

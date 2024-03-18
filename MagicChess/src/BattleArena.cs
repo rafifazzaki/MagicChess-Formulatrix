@@ -122,7 +122,7 @@ public class BattleArena : IBattleArena
         return true;
     }
 
-    public bool isEnoughPlayer(IPlayer[] playersTurn, out IPlayer player){
+    public bool IsEnoughPlayer(IPlayer[] playersTurn, out IPlayer player){
         player = null;
         if(playersAndPieces.Count() < 2){
             var playersNotInDictionary = playersTurn.Except(playersAndPieces.Keys).ToArray();
@@ -135,8 +135,6 @@ public class BattleArena : IBattleArena
     public bool IsAnyPiecesEmpty(IPlayer[] playerTurns, out IPlayer playerLose){
         playerLose = null;
         bool isPlayerZeroPiece = false;
-        
-        Console.WriteLine("lolololol: " + playerLose);
 
         
 

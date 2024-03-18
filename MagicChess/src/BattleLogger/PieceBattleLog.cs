@@ -1,6 +1,6 @@
 namespace MagicChess;
 
-public class PieceBattleLog : ILogger{
+public class PieceBattleLog : IBattleLogger{
     public int Number {get;} = 0;
     public string Name {get;}
     List<IPlayer> attackerPlayer;
