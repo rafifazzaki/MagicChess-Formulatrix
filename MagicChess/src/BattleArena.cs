@@ -113,7 +113,7 @@ public class BattleArena : IBattleArena
     }
 
     public bool RemovePieceFromBoard(IPlayer player, IPiece piece){
-        if(player == null || piece == null){
+        if(player == null || piece == null || piece.IsAssigned == false){
             return false;
         }
         PiecesPosition[piece.CurrentPosition.Item1, piece.CurrentPosition.Item1] = null;

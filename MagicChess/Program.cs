@@ -334,14 +334,17 @@ class Program
             {
                 break;
             }
-            else if (int.TryParse(answer, out int choice))
+            
+            else if (int.TryParse(answer, out int choice) && choice >=1)
             {
                 Console.WriteLine(choice + "<-choice");
                 IPiece piece = gc.GetCurrentPlayerData().GetPieces()[choice - 1];
                 gc.GetStore().GetPieces().Add(piece);
                 gc.GetCurrentPlayerData().AddGold(piece.Price);
                 gc.GetCurrentPlayerData().GetPieces().Remove(piece);
-                gc.GetArena().RemovePieceFromBoard(gc.GetCurrentPlayer(), piece);
+                if(!gc.GetArena().RemovePieceFromBoard(gc.GetCurrentPlayer(), piece)){
+                    Console.WriteLine("Piece Removed from board");
+                }
                 Console.WriteLine($"{piece.Name} is Sold!");
                 Console.ReadLine();
                 break;
