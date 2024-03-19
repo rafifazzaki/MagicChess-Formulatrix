@@ -1,6 +1,8 @@
 ﻿using System.Text.Json;
 using MagicChess;
 using MagicChess.PieceChar;
+using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
 // check "TANYA"
 /*
 To Do:
@@ -36,15 +38,6 @@ class Program
 
     static void Main()
     {
-        // Console.WriteLine("in");
-        // DeserializeRule();
-        // // DeserializeRuleCHATGPT();
-        // // SerializeRule();
-        // // SerializePieces();
-        // DeserializePieces();
-
-        // Console.WriteLine("out");
-        // return;
         #region Game Setup
         Console.WriteLine("input player 1 name:");
         string? name1 = Console.ReadLine();
@@ -55,7 +48,7 @@ class Program
         BattleArena arena = new("Default", 4);
 
 
-        List<Piece> deserialized = Util.DeserializePieces("pieces.json");//new();
+        List<Piece> deserialized = Util.DeserializePieces("pieces.json");
         List<IPiece> pieces = new();
         foreach (var item in deserialized)
         {
@@ -63,44 +56,15 @@ class Program
             pieces.Add(convertedPiece);
         }
 
-/*
-        #region add piece
-        pieces.Add(new RedAxe("Axe 1"));
-        pieces.Add(new RedAxe("Axe 2"));
-        pieces.Add(new RedAxe("Axe 3"));
-        pieces.Add(new RedAxe("Axe 4"));
+        ILoggerFactory loggerFactory = LoggerFactory.Create(log =>
+		{
+			log.SetMinimumLevel(LogLevel.Information);
+			log.AddNLog("nlog.config");
+		});
 
-        pieces.Add(new StonePanda("StonePanda 1"));
-        pieces.Add(new StonePanda("StonePanda 2"));
-        pieces.Add(new StonePanda("StonePanda 3"));
-        pieces.Add(new StonePanda("StonePanda 4"));
+        ILogger<GameController> logger = loggerFactory.CreateLogger<GameController>();
 
-        pieces.Add(new Unicorn("Unicorn 1"));
-        pieces.Add(new Unicorn("Unicorn 2"));
-        pieces.Add(new Unicorn("Unicorn 3"));
-        pieces.Add(new Unicorn("Unicorn 4"));
 
-        pieces.Add(new SoulReaper("SoulReaper 1"));
-        pieces.Add(new SoulReaper("SoulReaper 2"));
-        pieces.Add(new SoulReaper("SoulReaper 3"));
-        pieces.Add(new SoulReaper("SoulReaper 4"));
-
-        pieces.Add(new ShamanOfDesert("ShamanOfDesert 1"));
-        pieces.Add(new ShamanOfDesert("ShamanOfDesert 2"));
-        pieces.Add(new ShamanOfDesert("ShamanOfDesert 3"));
-        pieces.Add(new ShamanOfDesert("ShamanOfDesert 4"));
-
-        pieces.Add(new Pandoo("Pandoo 1"));
-        pieces.Add(new Pandoo("Pandoo 2"));
-        pieces.Add(new Pandoo("Pandoo 3"));
-        pieces.Add(new Pandoo("Pandoo 4"));
-
-        pieces.Add(new CaptainSpark("CaptainSpark 1"));
-        pieces.Add(new CaptainSpark("CaptainSpark 2"));
-        pieces.Add(new CaptainSpark("CaptainSpark 3"));
-        pieces.Add(new CaptainSpark("CaptainSpark 4"));
-        #endregion
-*/
         BattleStore store = new(5, pieces);
         Util.Shuffle(store.GetPieces());
         Util.Shuffle(store.GetPieces());
@@ -114,10 +78,16 @@ class Program
         playersData.Add(p1, pd1);
         playersData.Add(p2, pd2);
 
-        Rule rule = Util.DeserializeRule("rule.json");//new Rule();
+        Rule? rule = Util.DeserializeRule("rule.json");//new Rule();
+        
+        if(rule == null){
+            logger?.LogWarning("rule is null");
+            return;
+        }
+        logger?.LogInformation("rule is deserialized");
         PieceBattleLog pieceBattleLog = new();
 
-        GameController gc = new(arena, store, rule, playersData, pieceBattleLog);
+        GameController gc = new(arena, store, rule, playersData, pieceBattleLog, logger);
 
         #endregion
 

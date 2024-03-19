@@ -1,12 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "VrXvBXk4FVOH/Bm5At0ZI+g0fHeIz2d9paR1UW3W7cqgv9NOxxLDm0RYtoIq8M7txveVD9uP/3Zh67LNjVZRuw==",
+  "dgSpecHash": "VQdjkGqR4Qw5JIqx7P8X9NIr1Rb0fNfOT63NHBbnO+eY/AkfAPKSNzE3Rh8SrH0Z9H7ZGy6rz9fO7N8G8fqn9g==",
   "success": true,
   "projectFilePath": "c:\\Users\\rafif\\Documents\\GitHub\\MagicChess-Formulatrix\\MagicChess\\MagicChess.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\rafif\\.nuget\\packages\\spectre.console\\0.48.0\\spectre.console.0.48.0.nupkg.sha512",
-    "C:\\Users\\rafif\\.nuget\\packages\\spectre.console.cli\\0.48.0\\spectre.console.cli.0.48.0.nupkg.sha512",
-    "C:\\Users\\rafif\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512"
+    "C:\\Users\\rafif\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\8.0.0\\microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\rafif\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\8.0.0\\microsoft.extensions.dependencyinjection.8.0.0.nupkg.sha512",
+    "C:\\Users\\rafif\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\rafif\\.nuget\\packages\\microsoft.extensions.logging\\8.0.0\\microsoft.extensions.logging.8.0.0.nupkg.sha512",
+    "C:\\Users\\rafif\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\rafif\\.nuget\\packages\\microsoft.extensions.options\\8.0.0\\microsoft.extensions.options.8.0.0.nupkg.sha512",
+    "C:\\Users\\rafif\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0\\microsoft.extensions.primitives.8.0.0.nupkg.sha512",
+    "C:\\Users\\rafif\\.nuget\\packages\\nlog\\5.2.8\\nlog.5.2.8.nupkg.sha512",
+    "C:\\Users\\rafif\\.nuget\\packages\\nlog.extensions.logging\\5.3.8\\nlog.extensions.logging.5.3.8.nupkg.sha512"
   ],
   "logs": []
 }

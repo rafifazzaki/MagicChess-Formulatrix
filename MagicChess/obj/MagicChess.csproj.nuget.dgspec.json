@@ -43,13 +43,13 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "Spectre.Console": {
+            "Microsoft.Extensions.Logging": {
               "target": "Package",
-              "version": "[0.48.0, )"
+              "version": "[8.0.0, )"
             },
-            "Spectre.Console.Cli": {
+            "NLog.Extensions.Logging": {
               "target": "Package",
-              "version": "[0.48.0, )"
+              "version": "[5.3.8, )"
             }
           },
           "imports": [
