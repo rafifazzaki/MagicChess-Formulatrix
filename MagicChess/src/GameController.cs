@@ -78,6 +78,9 @@ public class GameController : IAutoChessGameController
     }
     #endregion
 
+    public ILogger<GameController>? GetLogger(){
+        return _log;
+    }
 
     #region Checks
     public bool IsAnyPlayerDie(){
@@ -138,6 +141,7 @@ public class GameController : IAutoChessGameController
         }
         this.battleLogger = battleLogger;
         _log = logger;
+        _log?.LogInformation("Game Controller has been made");
     }
 
     public IPiece GetPlayerPiece(int index){

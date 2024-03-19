@@ -105,15 +105,6 @@ class Program
 
             AutoBattle(gc);
             
-            /* Good Learning opportunity
-            // foreach (var item in gc.PlayersTurn)
-            // {
-            //     if (gc.playersData[item].HP <= 0)
-            //     {
-            //         gc.SetGameEnded();
-            //     }
-            // }*/
-
             // TANYA: is this good to iterate twice? or compare IPlayer directly
             if(gc.IsAnyPlayerDie()){
                 Console.WriteLine($"{gc.GetWinner()} Win!");
@@ -123,6 +114,7 @@ class Program
     }
     static void AutoBattle(GameController gc)
     {
+        gc.GetLogger()?.LogInformation("Auto Battle Started");
         // get pieces from arena: playersAndPieces
         // List<KeyValuePair<IPiece, IPlayer>> piecesQueue = gc.arena.PiecePlayer.ToList<KeyValuePair<IPiece, IPlayer>>();
         Dictionary<IPlayer, List<IPiece>> playersAndPieces = gc.GetArena().GetPlayersAndPieces();
@@ -148,7 +140,7 @@ class Program
 
             if(!gc.RemoveDeadPieces()){
                 Console.WriteLine("Players pieces less than 2");
-                
+                gc.GetLogger()?.LogInformation("Players pieces less than 2");
             }
 
             Console.WriteLine("in");
@@ -185,7 +177,7 @@ class Program
             Console.ReadLine();
 
             if(isDone == true){
-                
+                gc.GetLogger()?.LogInformation("Auto Battle Ended", gc.GetCurrentPlayer());
                 break;
             }
             Console.WriteLine("Both player still has piece(s)");
@@ -234,9 +226,9 @@ class Program
 
     static void MainMenu(GameController gc, KeyValuePair<IPlayer, IPlayerData> playerData, string answer)
     {
+        gc.GetLogger()?.LogInformation("{player} accessing Main menu", gc.GetCurrentPlayer());
         while (playerData.Key == gc.GetCurrentPlayer())
         {
-            
             Console.Clear();
             Console.WriteLine($"Player: {playerData.Key.Name}");
             Console.WriteLine($"HP: {playerData.Value.HP}, Gold: {playerData.Value.Gold}, Exp: {playerData.Value.Exp}");
@@ -285,6 +277,7 @@ class Program
 
     public static void SellPiece(GameController gc)
     {
+        gc.GetLogger()?.LogInformation("{player} accessing SellPiece menu", gc.GetCurrentPlayer());
         while (true)
         {
             Console.Clear();
@@ -324,6 +317,7 @@ class Program
 
     static void BuyLevel(GameController gc)
     {
+        gc.GetLogger()?.LogInformation("{player} accessing BuyLevel menu", gc.GetCurrentPlayer());
         // if player level > exp & gold is sufficient
         // can level up with gold
         // add assign on roundData
@@ -395,11 +389,13 @@ class Program
 
     static void EndTurn(GameController gc)
     {
+        gc.GetLogger()?.LogInformation("{player} turn ended");
         gc.NextTurn(gc.GetCurrentPlayer());
     }
 
     static void CheckBoard(GameController gc)
     {
+        gc.GetLogger()?.LogInformation("{player} accessing CheckBoard menu", gc.GetCurrentPlayer());
         string? answer;
         // while (true)
         // {
@@ -445,10 +441,12 @@ class Program
 
     static void Info(GameController gc)
     {
+        gc.GetLogger()?.LogInformation("{player} accessing Info menu", gc.GetCurrentPlayer());
         string? answer;
         while (true)
         {
             Console.Clear();
+            
             Console.WriteLine($"Player: {gc.GetCurrentPlayer().Name}");
             Console.WriteLine(
                 $"Gold: {gc.GetCurrentPlayerData().Gold}, Exp: {gc.GetCurrentPlayerData().Exp}, Lvl: {gc.GetCurrentPlayerData().Level}"
@@ -481,6 +479,7 @@ class Program
 
     static void AssignPieces(GameController gc)
     {
+        gc.GetLogger()?.LogInformation("{player} accessing AssignPieces menu", gc.GetCurrentPlayer());
         string? answer;
         int i;
         while (true)
@@ -548,6 +547,7 @@ class Program
 
     static void ShowStore(GameController gc)
     {
+        gc.GetLogger()?.LogInformation("{player} accessing Store menu", gc.GetCurrentPlayer());
         List<IPiece> pieces = gc.PieceOnStore();
         while (true)
         {
