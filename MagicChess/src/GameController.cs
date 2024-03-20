@@ -358,7 +358,7 @@ public class GameController : IAutoChessGameController
             _log?.LogWarning("BuyLevel: {player} Level is maxed", player.Name);
             return false;
         }
-        if(RuleToLevelUp(player) <= 0){
+        if(RuleToLevelUp(player) < 0){
             // ASK
             _log?.LogWarning("BuyLevel: cannot level up");
             return false;
