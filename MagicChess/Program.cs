@@ -368,7 +368,7 @@ class Program
                     if(gc.BuyLevel(gc.GetCurrentPlayer())){
                         Console.WriteLine("Level Up Successful!");
                         Console.WriteLine($"Current Level: {gc.GetCurrentPlayerData().Level}");
-                        Console.WriteLine("Now You can assign up to: " + gc.CurrentMaxAssignPiece(gc.GetCurrentPlayer()));
+                        Console.WriteLine("Now You can assign up to: " + gc.CurrentMaxAssignPiece());
                     }
                     Console.ReadLine();
 

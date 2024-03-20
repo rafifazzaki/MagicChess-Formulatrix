@@ -20,82 +20,46 @@ public class GameController : IAutoChessGameController
     ILogger<GameController>? _log;
 
     #region GetReferenceType
-    /// <summary>
-    /// Get battleLogger
-    /// </summary>
-    /// <returns>
-    /// returns BattleLogger to displays:
-    /// players and pieces that attacking, and whos being attacked (piece and player)
-    /// and what piece that has died
-    /// </returns>
+
     public IBattleLogger GetBattleLogger(){
         return battleLogger;
     }
-    /// <summary>
-    /// Get the rule of the game such as how many exp and gold do the players get at a certain levels
-    /// </summary>
-    /// <returns></returns>
+
     public IRule GetRule(){
         return rule;
     }
-    /// <summary>
-    /// get current player of the game
-    /// </summary>
-    /// <returns></returns>
+
     public IPlayer GetCurrentPlayer(){
         return currentPlayer;
     }
-    /// <summary>
-    /// returns all of the player that was inside the turn
-    /// </summary>
-    /// <returns></returns>
+
     public IPlayer[] GetPlayersTurn(){
         return PlayersTurn;
     }
-    /// <summary>
-    /// get BattleStore
-    /// </summary>
-    /// <returns></returns>
+
     public IBattleStore GetStore(){
         return store;
     }
-    /// <summary>
-    /// Get BattleArena
-    /// </summary>
-    /// <returns></returns>
+    
     public IBattleArena GetArena(){
         return arena;
     }
-    /// <summary>
-    /// Get All player's Data
-    /// </summary>
-    /// <returns></returns>
+
     public Dictionary<IPlayer, IPlayerData> GetPlayersData(){
         return playersData;
     }
-    /// <summary>
-    /// get specifics player data using IPlayer parameter
-    /// </summary>
-    /// <param name="player"></param>
-    /// <returns></returns>
+    
     public IPlayerData GetPlayerData(IPlayer player){
         return playersData[player];
     }
     #endregion
 
     #region GetMethod
-    /// <summary>
-    /// Get current player data
-    /// </summary>
-    /// <returns></returns>
+    
     public IPlayerData GetCurrentPlayerData(){
         return playersData[currentPlayer];
     }
-    /// <summary>
-    /// Get all assigned pieces from a player
-    /// </summary>
-    /// <param name="player"></param>
-    /// <returns></returns>
+    
     public IEnumerable<IPiece> GetPlayerAssignedPieces(IPlayer player){
         List<IPiece> assignedPieces = new();
         foreach (IPiece piece in playersData[player].GetPieces())
@@ -106,11 +70,7 @@ public class GameController : IAutoChessGameController
         }
         return assignedPieces;
     }
-    /// <summary>
-    /// get all unassigned pieces from a player
-    /// </summary>
-    /// <param name="player"></param>
-    /// <returns></returns>
+
     public IEnumerable<IPiece> GetPlayerUnassignedPieces(IPlayer player){
         List<IPiece> unassignedPieces = new();
         foreach (IPiece piece in playersData[player].GetPieces())
@@ -122,28 +82,18 @@ public class GameController : IAutoChessGameController
         return unassignedPieces;
     }
 
-    /// <summary>
-    /// get how max a player can assign according to rule
-    /// </summary>
-    /// <param name="player"></param>
-    /// <returns></returns>
-    public int CurrentMaxAssignPiece(IPlayer player){
+    
+    public int CurrentMaxAssignPiece(){
         return rule.PiecesPerLevel[GetCurrentPlayerData().Level - 1];
     }
     #endregion
-    /// <summary>
-    /// get logger
-    /// </summary>
-    /// <returns></returns>
+    
     public ILogger<GameController>? GetLogger(){
         return _log;
     }
 
     #region Checks
-    /// <summary>
-    /// checks if any of the players die
-    /// </summary>
-    /// <returns></returns>
+    
     public bool IsAnyPlayerDie(){
         bool isAnyDie = false;
         foreach (var item in PlayersTurn)
@@ -159,10 +109,7 @@ public class GameController : IAutoChessGameController
         }
         return false;
     }
-    /// <summary>
-    /// check if there is any player die, return player who wins
-    /// </summary>
-    /// <returns></returns>
+    
     public IPlayer GetWinner(){
         bool isAnyAlive = false;
         IPlayer winner = null!;
@@ -187,16 +134,16 @@ public class GameController : IAutoChessGameController
     #endregion
 
 
-/// <summary>
-/// constructor, needs BattleArena, BattleStore, Rule, PlayersData,
-/// BattleLogger (for getting variable from AutoBattle), and optionally a logger for the game
-/// </summary>
-/// <param name="arena"></param>
-/// <param name="store"></param>
-/// <param name="rule"></param>
-/// <param name="playersData"></param>
-/// <param name="battleLogger"></param>
-/// <param name="logger"></param>
+    /// <summary>
+    /// constructor, needs BattleArena, BattleStore, Rule, PlayersData,
+    /// BattleLogger (for getting variable from AutoBattle), and optionally a logger for the game
+    /// </summary>
+    /// <param name="arena"></param>
+    /// <param name="store"></param>
+    /// <param name="rule"></param>
+    /// <param name="playersData"></param>
+    /// <param name="battleLogger"></param>
+    /// <param name="logger"></param>
     public GameController(IBattleArena arena, IBattleStore store, Rule rule, Dictionary<IPlayer, IPlayerData> playersData, IBattleLogger battleLogger, ILogger<GameController>? logger = null)
     {
         this.arena = arena;
@@ -217,30 +164,19 @@ public class GameController : IAutoChessGameController
         _log = logger;
         _log?.LogInformation("Game Controller has been made");
     }
-    /// <summary>
-    /// Get player's pieces from an index
-    /// </summary>
-    /// <param name="index"></param>
-    /// <returns></returns>
+    
     public IPiece GetPlayerPiece(int index){
         IPiece piece = playersData[currentPlayer].GetPieces()[index - 1];
         _log?.LogInformation("GetPlayerPiece: {pieces} from {player}", piece.Name, currentPlayer);
         return piece;
     }
-    /// <summary>
-    /// GetPieces from the store
-    /// </summary>
-    /// <returns></returns>
+    
 
     public IEnumerable<IPiece> GetPieces(){
         _log?.LogInformation("GetPieces: GetPieces from store {pieces}", store.GetPieces().Count());
         return store.GetPieces();
     }
-    /// <summary>
-    /// set current player
-    /// </summary>
-    /// <param name="player"></param>
-    /// <returns></returns>
+    
     public bool SetCurrentPlayer(IPlayer player){
         // validasi player if already in dict
         _log?.LogInformation("SetCurrentPlayer: player is {player}", currentPlayer.Name);
@@ -248,10 +184,7 @@ public class GameController : IAutoChessGameController
         return true;
     }
 
-    /// <summary>
-    /// get piece on store according to var: PieceToShow
-    /// </summary>
-    /// <returns></returns>
+    
     public List<IPiece> PieceOnStore(){
         
         // if(shuffle) {
@@ -263,11 +196,7 @@ public class GameController : IAutoChessGameController
         _log?.LogInformation("PieceOnStore: get from store {number}", store.PiecesToShow);
         return store.GetPieces().Take(store.PiecesToShow).ToList(); 
     }
-    /// <summary>
-    /// contains logic for the next turn
-    /// </summary>
-    /// <param name="player"></param>
-    /// <returns></returns>
+    
     public bool NextTurn(IPlayer player){
         // validation
         // set it as current
@@ -277,21 +206,13 @@ public class GameController : IAutoChessGameController
         currentPlayer = PlayersTurn[nextIndex];
         return true;
     }
-    /// <summary>
-    /// for setting if the game has ended
-    /// </summary>
-    /// <returns></returns>
+    
     public bool SetGameEnded(){
         IsGameEnded = true;
         _log?.LogInformation("SetGameEnded called");
         return true;
     }
-    /// <summary>
-    /// buy pieces from the store
-    /// </summary>
-    /// <param name="player"></param>
-    /// <param name="piece"></param>
-    /// <returns></returns>
+    
     public bool BuyPiece(IPlayer player, IPiece piece){
         // check if the player can buy
         if(playersData[player].Gold >= piece.Price){
@@ -307,11 +228,7 @@ public class GameController : IAutoChessGameController
 
 
     
-    /// <summary>
-    /// Check if the player has maxed their levels
-    /// </summary>
-    /// <param name="player"></param>
-    /// <returns></returns>
+    
     public bool IsLevelMaxed(IPlayer player){
         if (GetPlayerData(player).Level >= rule.MaxLevel)
         {
@@ -322,13 +239,7 @@ public class GameController : IAutoChessGameController
         return false;
     }
 
-    /// <summary>
-    /// for checking if the player can level up
-    /// </summary>
-    /// <param name="player"></param>
-    /// <returns>
-    /// how much exp needed to level up
-    /// </returns>
+    
     public int RuleToLevelUp(IPlayer player){
         bool isCanLevelUp = false;
         int expToLevelUp = 0;
@@ -348,11 +259,7 @@ public class GameController : IAutoChessGameController
         _log?.LogInformation("RuleToLevelUp: return {expToLevelUp}", expToLevelUp);
         return expToLevelUp;
     }
-    /// <summary>
-    /// Buy level's if the player met the requirement
-    /// </summary>
-    /// <param name="player"></param>
-    /// <returns></returns>
+    
     public bool BuyLevel(IPlayer player){
         if(!IsLevelMaxed(player)){
             _log?.LogWarning("BuyLevel: {player} Level is maxed", player.Name);
@@ -370,12 +277,7 @@ public class GameController : IAutoChessGameController
         return true;
     }
 
-    /// <summary>
-    /// give gold and exp to all players in playerData
-    /// </summary>
-    /// <param name="gold"></param>
-    /// <param name="exp"></param>
-    /// <returns></returns>
+    
     public bool GiveGoldAndExp(int gold, int exp){
         if(playersData.Count() < 1){
             _log?.LogWarning("GiveGoldAndExp: fail to add gold & exp, player less than 1");
@@ -390,12 +292,7 @@ public class GameController : IAutoChessGameController
         return true;
     }
 
-    /// <summary>
-    /// AutoAttack will looping from player 1 piece's attacking each pieces of the player 2,
-    /// then vice versa
-    /// </summary>
-    /// <param name="pieceLog"></param>
-    /// <returns></returns>
+    
     public bool AutoAttack(ref IBattleLogger pieceLog){
         // dictionary ngga pasti urut
         if(arena.GetPlayersAndPieces().Count < 2){
@@ -427,10 +324,7 @@ public class GameController : IAutoChessGameController
         _log?.LogInformation("AutoAttack: second player's pieces attack all first player's pieces");
         return true;
     }
-    /// <summary>
-    /// remove dead pieces if any of the pieces current hp is 0 or less
-    /// </summary>
-    /// <returns></returns>
+    
     public bool RemoveDeadPieces(){
         if(arena.GetPlayersAndPieces().Count <= 0){
             _log?.LogWarning("RemoveDeadPieces: fail to execute method: player is less than 1");
