@@ -307,14 +307,13 @@ public class GameController : IAutoChessGameController
 
 
     
-    // CHECK HERE, THIS PLAYER IS NOT PROCESSED
     /// <summary>
-    /// Check if the player hsa maxed their levels
+    /// Check if the player has maxed their levels
     /// </summary>
     /// <param name="player"></param>
     /// <returns></returns>
     public bool IsLevelMaxed(IPlayer player){
-        if (GetCurrentPlayerData().Level >= rule.MaxLevel)
+        if (GetPlayerData(player).Level >= rule.MaxLevel)
         {
             _log?.LogInformation("IsLevelMaxed: {player}'s level is sufficient", GetCurrentPlayerData().Level);
             return true;
@@ -323,7 +322,6 @@ public class GameController : IAutoChessGameController
         return false;
     }
 
-    // CHECK HERE, THIS PLAYER IS NOT PROCESSED
     /// <summary>
     /// for checking if the player can level up
     /// </summary>
@@ -336,7 +334,7 @@ public class GameController : IAutoChessGameController
         int expToLevelUp = 0;
         foreach (var item in rule.ExpNeedForLevel)
         {
-            if (GetCurrentPlayerData().Exp >= item)
+            if (GetPlayerData(player).Exp >= item)
             {
                 isCanLevelUp = true;
                 expToLevelUp = item;
