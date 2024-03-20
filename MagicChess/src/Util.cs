@@ -7,7 +7,11 @@ namespace MagicChess;
 public static class Util
 {
     private static Random rng = new Random();
-
+    /// <summary>
+    /// shuffle a list
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="list"></param>
     public static void Shuffle<T>(this IList<T> list)
     {
         int n = list.Count;
@@ -20,7 +24,11 @@ public static class Util
             list[n] = value;
         }
     }
-
+    /// <summary>
+    /// deserialize pieces from file
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
     public static List<Piece> DeserializePieces(string path){
         string result;
         using(StreamReader sr = new(path)) 
@@ -30,7 +38,11 @@ public static class Util
 		List<Piece> pieces = JsonSerializer.Deserialize<List<Piece>>(result);
         return pieces;
     }
-
+    /// <summary>
+    /// deserialize rule from file
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
     public static Rule DeserializeRule(string path){
         string result;
         using(StreamReader sr = new(path)) 
@@ -40,7 +52,15 @@ public static class Util
 		Rule rule = JsonSerializer.Deserialize<Rule>(result);
 		return rule;
     }
-
+    /// <summary>
+    /// parse input from string to have the choice of the player and then coordinates of the board,
+    /// used for getting the piece and assign it to the board
+    /// </summary>
+    /// <param name="input"></param>
+    /// <param name="choice"></param>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
     public static bool ParseInputXY(string input, out string choice, out int x, out int y)
     {
         x = 0;

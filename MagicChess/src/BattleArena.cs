@@ -9,15 +9,28 @@ public class BattleArena : IBattleArena
     IPiece[,] PiecesPosition;// { get; private set; }
     Dictionary<IPlayer, List<IPiece>> playersAndPieces;// { get; private set; }
 
+    /// <summary>
+    /// get piece position
+    /// </summary>
+    /// <returns>
+    /// IPiece[,]
+    /// </returns>
     public IPiece[,] GetPiecesPosition(){
         return PiecesPosition;
     }
-
+    /// <summary>
+    /// Get list of player and their assigned pieces
+    /// </summary>
+    /// <returns></returns>
     public Dictionary<IPlayer, List<IPiece>> GetPlayersAndPieces(){
         return playersAndPieces;
     }
 
-    
+    /// <summary>
+    /// get pieces by player
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns></returns>
     public IEnumerable<IPiece> GetPiecesByPlayer(IPlayer player)
     {
         return playersAndPieces[player];
@@ -40,7 +53,12 @@ public class BattleArena : IBattleArena
     }
 
     // restructure from dict<IPiece, IPlayer> to dict<IPlayer, List<IPiece>>
-
+    /// <summary>
+    /// for checking whether the position already saving a piece position or not
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
     public bool IsCanAssign(int x, int y){
         // check board boundary
         if (x >= MaxBoard || y >= MaxBoard || x < 0 || y < 0)
@@ -56,7 +74,14 @@ public class BattleArena : IBattleArena
         }
         return false;
     }
-
+    /// <summary>
+    /// set a piece position
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="piece"></param>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
     public bool SetPiecePosition(IPlayer player, IPiece piece, int x, int y){
         bool found = false;
         // if the same piece already assigned, make the the initial position null
@@ -81,7 +106,7 @@ public class BattleArena : IBattleArena
         PiecesPosition[x, y] = piece;
         return true;
     }
-    public bool SetPiecePositionOri(IPlayer player, IPiece piece, int x, int y)
+    /*public bool SetPiecePositionOri(IPlayer player, IPiece piece, int x, int y)
     {
         // check moard boundary
         if (x >= MaxBoard || y >= MaxBoard || x < 0 || y < 0)
@@ -110,8 +135,14 @@ public class BattleArena : IBattleArena
             return true;
         }
         return false;
-    }
+    }*/
 
+    /// <summary>
+    /// remove pieces from board, and set the position back to null
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="piece"></param>
+    /// <returns></returns>
     public bool RemovePieceFromBoard(IPlayer player, IPiece piece){
         if(player == null || piece == null || piece.IsAssigned == false){
             return false;
@@ -122,6 +153,12 @@ public class BattleArena : IBattleArena
         return true;
     }
 
+    /// <summary>
+    /// Check if there is at least 2 players assign the piece to the board
+    /// </summary>
+    /// <param name="playersTurn"></param>
+    /// <param name="player"></param>
+    /// <returns></returns>
     public bool IsEnoughPlayer(IPlayer[] playersTurn, out IPlayer player){
         player = null;
         if(playersAndPieces.Count() < 2){
@@ -132,6 +169,12 @@ public class BattleArena : IBattleArena
         return true;
     }
 
+    /// <summary>
+    /// check if there is no pieces left in one of the players that ar assigned on the board
+    /// </summary>
+    /// <param name="playerTurns"></param>
+    /// <param name="playerLose"></param>
+    /// <returns></returns>
     public bool IsAnyPiecesEmpty(IPlayer[] playerTurns, out IPlayer playerLose){
         playerLose = null;
         bool isPlayerZeroPiece = false;

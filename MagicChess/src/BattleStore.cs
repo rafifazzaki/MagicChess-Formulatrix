@@ -10,6 +10,10 @@ public class BattleStore : IBattleStore
         PiecesToShow = piecesToShow;
         this.pieces = pieces;
     }
+    /// <summary>
+    /// get pieces from the store
+    /// </summary>
+    /// <returns></returns>
     public List<IPiece> GetPieces(){
         return pieces;
     }
