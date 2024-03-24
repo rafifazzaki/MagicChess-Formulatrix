@@ -142,7 +142,7 @@ public interface IAutoChessGameController
     /// get piece on store according to var: PieceToShow
     /// </summary>
     /// <returns></returns>
-    public List<IPiece> PieceOnStore();
+    public IEnumerable<IPiece> PieceOnStore();
 
     /// <summary>
     /// contains logic for the next turn

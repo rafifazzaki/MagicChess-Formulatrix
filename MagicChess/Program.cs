@@ -107,7 +107,7 @@ class Program
             
             // TANYA: is this good to iterate twice? or compare IPlayer directly
             if(gc.IsAnyPlayerDie()){
-                Console.WriteLine($"{gc.GetWinner()} Win!");
+                Console.WriteLine($"{gc.GetWinner().Name} Win!");
                 break;
             }
         }
@@ -548,7 +548,7 @@ class Program
     static void ShowStore(GameController gc)
     {
         gc.GetLogger()?.LogInformation("{player} accessing Store menu", gc.GetCurrentPlayer());
-        List<IPiece> pieces = gc.PieceOnStore();
+        List<IPiece> pieces = gc.PieceOnStore().ToList();
         while (true)
         {
             Console.Clear();

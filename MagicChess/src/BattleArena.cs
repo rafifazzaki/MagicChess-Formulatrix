@@ -58,6 +58,13 @@ public class BattleArena : IBattleArena
     }
     
     public bool SetPiecePosition(IPlayer player, IPiece piece, int x, int y){
+        if(player == null || piece == null){
+            return false;
+        }
+
+        if(x < 0 || y < 0){
+            return false;
+        }
         bool found = false;
         // if the same piece already assigned, make the the initial position null
         foreach (var kvp in playersAndPieces)
@@ -135,36 +142,33 @@ public class BattleArena : IBattleArena
     }
 
     
-    public bool IsAnyPiecesEmpty(IPlayer[] playerTurns, out IPlayer playerLose){
-        playerLose = null;
-        bool isPlayerZeroPiece = false;
-
-        
-
-        foreach (var item in playersAndPieces)
-        {
+    // public bool IsAnyPiecesEmpty(IPlayer[] playerTurns, out IPlayer playerLose){
+    //     playerLose = null;
+    //     bool isPlayerZeroPiece = false;
+    //     foreach (var item in playersAndPieces)
+    //     {
             
-            foreach (var i in item.Value)
-            {
-                Console.WriteLine($"{item.Key.Name}: {i.Name}");
-            }
-        }
+    //         foreach (var i in item.Value)
+    //         {
+    //             Console.WriteLine($"{item.Key.Name}: {i.Name}");
+    //         }
+    //     }
         
-        foreach (var player in playersAndPieces)
-        {
-            Console.WriteLine("pieces inside player: " + playersAndPieces.Count());
+    //     foreach (var player in playersAndPieces)
+    //     {
+    //         Console.WriteLine("pieces inside player: " + playersAndPieces.Count());
             
-            isPlayerZeroPiece = playersAndPieces.TryGetValue(player.Key, out List<IPiece> pieces) && pieces.Count <= 0;
-            Console.WriteLine(isPlayerZeroPiece);
+    //         isPlayerZeroPiece = playersAndPieces.TryGetValue(player.Key, out List<IPiece> pieces) && pieces.Count <= 0;
+    //         Console.WriteLine(isPlayerZeroPiece);
 
-            if (isPlayerZeroPiece)
-            {
-                playerLose = player.Key;
-                return true; // Player has zero pieces, return true and set playerLose
-            }
-        }
-        return false;
-    }
+    //         if (isPlayerZeroPiece)
+    //         {
+    //             playerLose = player.Key;
+    //             return true; // Player has zero pieces, return true and set playerLose
+    //         }
+    //     }
+    //     return false;
+    // }
 
 }
 

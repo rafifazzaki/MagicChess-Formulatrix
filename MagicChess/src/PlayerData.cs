@@ -35,6 +35,9 @@ public class PlayerData : IPlayerData
     }
     public bool RemoveGold(int price)
     {
+        if(price < 0){
+            return false;
+        }
         Gold -= price;
         return true;
     }
@@ -48,17 +51,26 @@ public class PlayerData : IPlayerData
     }
     public bool IncreaseLevel()
     {
+        if(Level == null){
+            return false;
+        }
         Level += 1;
         return true;
     }
 
     public bool IncreaseExp(int exp)
     {
+        if(exp < 0){
+            return false;
+        }
         Exp += exp;
         return true;
     }
     public bool SetCurrentMaxAssign(int maxAssign)
     {
+        if(maxAssign < 0){
+            return false;
+        }
         MaxAssign = maxAssign;
         return true;
     }

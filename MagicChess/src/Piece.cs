@@ -44,16 +44,25 @@ public class Piece : IPiece
     }
 
     public bool SetAssignedToTrue(){
+        if(IsAssigned == true){ //check again
+            return false;
+        }
         IsAssigned = true;
         return true;
     }
 
     public bool SetPosition((int, int) position){
+        if(position.Item1 < 0 || position.Item2 < 0){
+            return false;
+        }
         CurrentPosition = position;
         return true;
     }
 
     public bool ResetAssigned(){
+        if(IsAssigned == false){ //check again
+            return false;
+        }
         IsAssigned = false;
         CurrentPosition = initialPosition;
         return true;

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "VQdjkGqR4Qw5JIqx7P8X9NIr1Rb0fNfOT63NHBbnO+eY/AkfAPKSNzE3Rh8SrH0Z9H7ZGy6rz9fO7N8G8fqn9g==",
+  "dgSpecHash": "lMlQ13Ec2Y3KIv+9u3g90LeBA8yjdUoSJRo20xkUcC0LoV+P0Zof5p60jvAgtySzyWTHsDL6jD6HL2y+5umjqA==",
   "success": true,
-  "projectFilePath": "c:\\Users\\rafif\\Documents\\GitHub\\MagicChess-Formulatrix\\MagicChess\\MagicChess.csproj",
+  "projectFilePath": "C:\\Users\\rafif\\Documents\\GitHub\\MagicChess-Formulatrix\\MagicChess\\MagicChess.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\rafif\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\8.0.0\\microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\rafif\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\8.0.0\\microsoft.extensions.dependencyinjection.8.0.0.nupkg.sha512",

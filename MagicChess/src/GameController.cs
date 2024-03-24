@@ -185,7 +185,7 @@ public class GameController : IAutoChessGameController
     }
 
     
-    public List<IPiece> PieceOnStore(){
+    public IEnumerable<IPiece> PieceOnStore(){
         
         // if(shuffle) {
         //     Util.Shuffle(store.GetPieces());
@@ -194,11 +194,14 @@ public class GameController : IAutoChessGameController
         // ienumerable not need tolist
 
         _log?.LogInformation("PieceOnStore: get from store {number}", store.PiecesToShow);
-        return store.GetPieces().Take(store.PiecesToShow).ToList(); 
+        return store.GetPieces().Take(store.PiecesToShow); 
     }
     
     public bool NextTurn(IPlayer player){
         // validation
+        if(player == null){
+            return false;
+        }
         // set it as current
         int index = Array.IndexOf(PlayersTurn, player);
         int nextIndex = (index + 1) % PlayersTurn.Length; //modulo for making the last index = 0. thx chatGPT
@@ -208,6 +211,9 @@ public class GameController : IAutoChessGameController
     }
     
     public bool SetGameEnded(){
+        if(IsGameEnded == true){ //check again
+            return false;
+        }
         IsGameEnded = true;
         _log?.LogInformation("SetGameEnded called");
         return true;
@@ -215,6 +221,9 @@ public class GameController : IAutoChessGameController
     
     public bool BuyPiece(IPlayer player, IPiece piece){
         // check if the player can buy
+        if(player == null || piece == null){
+            return false;
+        }
         if(playersData[player].Gold >= piece.Price){
             _log?.LogInformation("BuyPiece: {player} has bought {piece}", player, piece);
             playersData[player].AddPiece(piece);
@@ -230,6 +239,9 @@ public class GameController : IAutoChessGameController
     
     
     public bool IsLevelMaxed(IPlayer player){
+        if(player == null){
+            return false;
+        }
         if (GetPlayerData(player).Level >= rule.MaxLevel)
         {
             _log?.LogInformation("IsLevelMaxed: {player}'s level is sufficient", GetCurrentPlayerData().Level);
@@ -261,6 +273,9 @@ public class GameController : IAutoChessGameController
     }
     
     public bool BuyLevel(IPlayer player){
+        if(player == null){
+            return false;
+        }
         if(!IsLevelMaxed(player)){
             _log?.LogWarning("BuyLevel: {player} Level is maxed", player.Name);
             return false;
