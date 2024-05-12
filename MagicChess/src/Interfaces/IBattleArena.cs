@@ -57,7 +57,7 @@ public interface IBattleArena
     /// <returns></returns>
     public bool IsCanAssign(int x, int y);
 
-    /*
+    
     
     /// <summary>
     /// check if there is no pieces left in one of the players that ar assigned on the board
@@ -66,7 +66,7 @@ public interface IBattleArena
     /// <param name="playerLose"></param>
     /// <returns></returns>
     public bool IsAnyPiecesEmpty(IPlayer[] playerTurns, out IPlayer playerLose);
-    */
+    
 
     /// <summary>
     /// Check if there is at least 2 players assign the piece to the board

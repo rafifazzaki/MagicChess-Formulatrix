@@ -142,33 +142,37 @@ public class BattleArena : IBattleArena
     }
 
     
-    // public bool IsAnyPiecesEmpty(IPlayer[] playerTurns, out IPlayer playerLose){
-    //     playerLose = null;
-    //     bool isPlayerZeroPiece = false;
-    //     foreach (var item in playersAndPieces)
-    //     {
-            
-    //         foreach (var i in item.Value)
-    //         {
-    //             Console.WriteLine($"{item.Key.Name}: {i.Name}");
-    //         }
-    //     }
-        
-    //     foreach (var player in playersAndPieces)
-    //     {
-    //         Console.WriteLine("pieces inside player: " + playersAndPieces.Count());
-            
-    //         isPlayerZeroPiece = playersAndPieces.TryGetValue(player.Key, out List<IPiece> pieces) && pieces.Count <= 0;
-    //         Console.WriteLine(isPlayerZeroPiece);
+    public bool IsAnyPiecesEmpty(IPlayer[] playerTurns, out IPlayer playerLose){
+        playerLose = null;
+        bool isPlayerZeroPiece = false;
 
-    //         if (isPlayerZeroPiece)
-    //         {
-    //             playerLose = player.Key;
-    //             return true; // Player has zero pieces, return true and set playerLose
-    //         }
-    //     }
-    //     return false;
-    // }
+        if(playerTurns.Count() < 1){
+            return false;
+        }
+        // foreach (var item in playersAndPieces)
+        // {
+            
+        //     foreach (var i in item.Value)
+        //     {
+        //         Console.WriteLine($"{item.Key.Name}: {i.Name}");
+        //     }
+        // }
+        
+        foreach (var player in playersAndPieces)
+        {
+            // Console.WriteLine("pieces inside player: " + playersAndPieces.Count());
+            
+            isPlayerZeroPiece = playersAndPieces.TryGetValue(player.Key, out List<IPiece> pieces) && pieces.Count <= 0;
+            // Console.WriteLine(isPlayerZeroPiece);
+
+            if (isPlayerZeroPiece)
+            {
+                playerLose = player.Key;
+                return true; // Player has zero pieces, return true and set playerLose
+            }
+        }
+        return false;
+    }
 
 }
 

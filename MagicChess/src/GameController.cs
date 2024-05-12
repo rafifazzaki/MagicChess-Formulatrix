@@ -1,6 +1,19 @@
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 
+/*
+Done:
+1. deserialization piece and rule
+2. every reference type make method
+3. BattleArena: PiecePlayer flip key and value to be <IPlayer, IPiece>
+	4.a. by extension GetPiecesByPlayer
+4. change List<T> to IEnumerable<T>
+5. restructure from program to gamecontroller
+----------------------------------------------------
+6. every bool method that has parameters don't just return true, but give validation 
+	(check: playerData, Piece, PlayerData)
+*/
+
 namespace MagicChess;
 /// <summary>
 /// GameController To control the flow of the game, assuming a normal gameplay where
@@ -144,7 +157,7 @@ public class GameController : IAutoChessGameController
     /// <param name="playersData"></param>
     /// <param name="battleLogger"></param>
     /// <param name="logger"></param>
-    public GameController(IBattleArena arena, IBattleStore store, Rule rule, Dictionary<IPlayer, IPlayerData> playersData, IBattleLogger battleLogger, ILogger<GameController>? logger = null)
+    public GameController(IBattleArena arena, IBattleStore store, IRule rule, Dictionary<IPlayer, IPlayerData> playersData, IBattleLogger battleLogger, ILogger<GameController>? logger = null)
     {
         this.arena = arena;
         this.store = store;
