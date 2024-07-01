@@ -1,4 +1,5 @@
 public interface IPieceAttack{
+<<<<<<< Updated upstream
 
     /// <summary>
     /// how much damage that this piece can deal to other pieces
@@ -23,6 +24,12 @@ public interface IPieceAttack{
     /// <summary>
     /// how much this piece damage the player
     /// </summary>
+=======
+    int AttackPoint {get;}
+    int AttackSpeed {get;}
+    int AttackRange {get;}
+    AttackType attackType {get;}
+>>>>>>> Stashed changes
     int DamageToPlayer {get;}
 }
 

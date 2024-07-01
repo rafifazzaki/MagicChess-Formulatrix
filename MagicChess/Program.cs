@@ -183,6 +183,7 @@ class Program
             Console.WriteLine("Both player still has piece(s)");
 
 
+<<<<<<< Updated upstream
             // check if the player is not same, if yes then attack it
             if(gc.AutoAttack(ref gc.battleLogger)){
                 
@@ -201,6 +202,28 @@ class Program
                     );
                     Console.WriteLine("then..");
 
+=======
+            // Synergy is HERE
+            // Check RaceSynergy = AddHealth
+            
+            
+            // check if the player is not same, if yes then attack it
+            foreach (KeyValuePair<IPiece, IPlayer> kvp in piecesQueue)
+            {
+                
+
+                foreach (var item in piecesQueue)
+                {
+                    // if the player is not the same
+                    if(kvp.Value != item.Value){
+
+                        // damage pieces
+                        item.Key.GetDamage(kvp.Key.AttackPoint);
+                        Console.WriteLine($"{kvp.Value.Name}: {kvp.Key.Name} Attacking {item.Key.Name} With {kvp.Key.AttackPoint} damage, {item.Key.Name}'s HP: {item.Key.CurrentHP}");
+                        Console.WriteLine("then..");
+                        break;
+                    }
+>>>>>>> Stashed changes
                 }
             }
 
@@ -262,9 +285,17 @@ class Program
                     CheckBoard(gc);
                     break;
                 case "6":
+<<<<<<< Updated upstream
                     SellPiece(gc);
                     break;
                 case "7":
+=======
+                    // code block
+                    SellPiece(gc);
+                    break;
+                case "7":
+                    // code block
+>>>>>>> Stashed changes
                     EndTurn(gc);
                     Util.Shuffle(gc.GetStore().GetPieces());
                     break;
@@ -275,6 +306,7 @@ class Program
         }
     }
 
+<<<<<<< Updated upstream
     public static void SellPiece(GameController gc)
     {
         gc.GetLogger()?.LogInformation("{player} accessing SellPiece menu", gc.GetCurrentPlayer());
@@ -318,6 +350,52 @@ class Program
     static void BuyLevel(GameController gc)
     {
         gc.GetLogger()?.LogInformation("{player} accessing BuyLevel menu", gc.GetCurrentPlayer());
+=======
+    static void SellPiece(GameController gc){
+        string? answer;
+        while (true)
+        {
+            Console.Clear();
+            Console.WriteLine($"Player: {gc.CurrentPlayer.Name}");
+            Console.WriteLine(
+                $"Gold: {gc.PlayersData[gc.CurrentPlayer].Gold}, Exp: {gc.PlayersData[gc.CurrentPlayer].Exp}, Lvl: {gc.PlayersData[gc.CurrentPlayer].Level}"
+                );
+            Console.WriteLine("===================================");
+            Console.WriteLine("current Pieces: ");
+            Console.WriteLine("===================================");
+            int i = 1;
+            foreach (var item in gc.PlayersData[gc.CurrentPlayer].Pieces)
+            {
+                Console.WriteLine($"{i}. {item.Name} (${item.Price}) :::: HP {item.HP}, ATK {item.AttackPoint}");
+                i++;
+            }
+            Console.WriteLine($"{i}.Back");
+            answer = Console.ReadLine();
+
+            if(int.TryParse(answer, out int choice) && choice >= 1 && choice <= gc.PlayersData[gc.CurrentPlayer].Pieces.Count){
+                IPiece piece = gc.PlayersData[gc.CurrentPlayer].Pieces[choice - 1];
+                // Add piece back to store
+                Console.WriteLine(piece.Name);
+                Console.WriteLine(gc.PlayersData[gc.CurrentPlayer].Pieces.Count - 1);
+                gc.store.Pieces.Add(piece);
+                // Add player gold 
+                gc.PlayersData[gc.CurrentPlayer].AddGold(piece.Price);
+                // remove 
+                gc.PlayersData[gc.CurrentPlayer].Pieces.Remove(piece); 
+                Console.ReadLine();
+                break;
+            }
+            else if (answer == i++.ToString())
+            {
+                break;
+            }
+            i = 0;
+
+        }
+    }
+
+    static void BuyLevel(GameController gc){
+>>>>>>> Stashed changes
         // if player level > exp & gold is sufficient
         // can level up with gold
         // add assign on roundData
@@ -592,6 +670,7 @@ class Program
             /*if (int.TryParse(answer, out int choice) && choice >= 1 && choice <= pieces.Count())
             {
                 // Check if player's Gold is sufficient
+<<<<<<< Updated upstream
                 if (gc.GetCurrentPlayerData().Gold >= pieces[choice - 1].Price)
                 {
                     Console.WriteLine($"You Bought: {pieces[choice - 1].Name}!");
@@ -602,6 +681,14 @@ class Program
                 }
                 else
                 {
+=======
+                if(gc.PlayersData[gc.CurrentPlayer].Gold >= gc.PieceOnStore(false)[choice - 1].Price){
+                    Console.WriteLine($"You Bought: {gc.PieceOnStore(false)[choice - 1].Name}!");
+                    gc.PlayersData[gc.CurrentPlayer].AddPiece(gc.PieceOnStore(false)[choice - 1]);
+                    gc.PlayersData[gc.CurrentPlayer].RemoveGold(gc.PieceOnStore(false)[choice - 1].Price);
+                    gc.store.Pieces.Remove(gc.PieceOnStore(false)[choice - 1]);
+                }else{
+>>>>>>> Stashed changes
                     Console.WriteLine("Insufficient Gold");
                 }
 
